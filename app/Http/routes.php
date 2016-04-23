@@ -30,6 +30,14 @@ Route::post('/lockUser', 'ClientUserController@lockUser');
 Route::post('/trackUser', 'ClientUserController@trackUser');
 //Route::
 
+Route::group(['prefix' => 'userProfile'], function () {
+    Route::post('setSignature','ClientUserController@setSignature');
+    Route::post('setNickname','ClientUserController@setNickname');
+//    Route::post('setIcon','ClientUserController@setIcon');
+//    Route::post('setSex','ClientUserController@setSex');
+//    Route::post('setAddress','ClientUserController@setAddress');
+});
+
 /**
  * 测试
  */

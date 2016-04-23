@@ -97,9 +97,39 @@ class ClientUserController extends Controller
         $array = json_decode($jsonstr, true);
         $temp = ClientUser::where('clientName', '=', $array['clientName'])->where('password', '=', $array['password'])->get();
         if (count($temp) == 0) {
-            return response()->json(['login' => false, 'message' => '用户不存在']);
+            return response()->json(['login' => false, 'message' => '用户不存在', 'nickname'=>null, 'sex'=>null, 'address'=>null, 'signature'=>null]);
         } else {
-            return response()->json(['login' => true, 'message' => '登录成功']);
+            $clientUser = $temp[0];
+            return response()->json(['login' => true, 'message' => '登录成功','nickname'=>$clientUser['nick_name'], 'sex'=>$clientUser['sex'], 'address'=>$clientUser['address'], 'signature'=>$clientUser['signature']]);
+        }
+    }
+
+    public function setSignature(Request $request){
+        $jsonstr = $request->input('userSignature');
+        $array = json_decode($jsonstr, true);
+        $temp = ClientUser::where('clientName', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['saveSignature' => false, 'message' => '更新签名失败']);
+        } else{
+            $clientUser = $temp[0];
+            $clientUser->signature = $array['signature'];
+            $clientUser->save();
+            return response()->json(['saveSignature' => true, 'message' => '更新签名成功']);
+        }
+
+    }
+
+    public function setNickname(Request $request){
+        $jsonstr = $request->input('userNickname');
+        $array = json_decode($jsonstr, true);
+        $temp = ClientUser::where('clientName', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['saveNickname' => false, 'message' => '更新签名失败']);
+        } else{
+            $clientUser = $temp[0];
+            $clientUser->nick_name = $array['nickname'];
+            $clientUser->save();
+            return response()->json(['saveNickname' => true, 'message' => '更新签名成功']);
         }
     }
 
