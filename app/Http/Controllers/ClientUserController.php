@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Redis;
+use Cache;
 use Illuminate\Support\Facades\DB;
 use App\ClientUser;
 use Illuminate\Http\Request;
@@ -134,7 +135,6 @@ class ClientUserController extends Controller
     /**
      *
      * 获取来自手机客户端的位置信息
-     * 然后存入redis缓存（键值对）
      * locationData{
      *      clientName :
      *      location_latitude :
@@ -145,22 +145,26 @@ class ClientUserController extends Controller
      */
     public function setLocation(Request $request)
     {
-        $jsonstr = $request->input('locationData');
+        $jsonstr = $request->input('location');
+//        error_log($jsonstr);
         $array = json_decode($jsonstr, true);
-        Redis::set('clientName', $array['clientName']);
-        Redis::set('location_latitude', $array['location_latitude']);
-        Redis::set('location_lontitude', $array['location_lontitude']);
-
+        if (($array['clientName'] == 'tempUser') || is_null($array['clientName']))
+            return;
+        $clientName = $array['clientName'];
+//        注意冒号
+        Cache::forever('location_latitude:' . $clientName, $array['latitude']);
+        Cache::forever('location_lontitude:' . $clientName, $array['lontitude']);
+//        error_log("Cache:".$array['clientName'].':'.$array['latitude'].':'.$array['lontitude']);
     }
 
     public function getLocation(Request $request)
     {
-        if($request->ajax())
-        {
+
+        if ($request->ajax()) {
             return response()->json(array(
                 'status' => 1,
-                'location_latitude' => Redis::get('location_latitude'),
-                'location_lontitude' =>  Redis::get('location_lontitude'),
+                'location_latitude' => Cache::has('location_latitude') ? (Cache::get('location_latitude')) : 0,
+                'location_lontitude' => Cache::has('location_lontitude') ? (Cache::get('location_lontitude')) : 0,
                 'test' => rand(0, 1000)
             ));
         }
@@ -173,7 +177,7 @@ class ClientUserController extends Controller
         if ($request->ajax()) {
             $nameStr = $request->input('name');
 //            temps是一个集合
-            $temps = ClientUser::where('clientName', 'like', $nameStr.'%')->get();
+            $temps = ClientUser::where('clientName', 'like', $nameStr . '%')->get();
             $ttt = count($temps);
             if (count($temps) == 0) {
                 return Redirect::back()->withInput()->withErrors('查询失败!');
@@ -195,7 +199,7 @@ class ClientUserController extends Controller
                     $clientName = $temp->clientName;
                     $created_at = $temp->created_at;
                     $updated_at = $temp->updated_at;
-                    $tabstr .= "<tr><td>" . $id . "</td><td>" . $clientName . "</td><td>" . $created_at . "</td><td>" . $updated_at . "</td><td>".$check."</td></tr>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td>" . $clientName . "</td><td>" . $created_at . "</td><td>" . $updated_at . "</td><td>" . $check . "</td></tr>";
                 }
                 $tabstr .= "</table>";
                 return response()->json(array(
@@ -206,5 +210,83 @@ class ClientUserController extends Controller
         }
 
     }
+
+    public function lockUser(Request $request)
+    {
+        if ($request->ajax()) {
+            $nameStr = $request->input('name');
+//            temps是一个集合
+            $temps = ClientUser::where('clientName', $nameStr)->get();
+            $ttt = count($temps);
+            if (count($temps) == 0) {
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '没有此人',
+                    'isUser' => false
+                ));
+            } else {
+//                self::registerID($nameStr);
+                error_log('location_latitude:'.Cache::get('location_latitude:' . $nameStr));
+                error_log('location_lontitude:'.Cache::get('location_lontitude:' . $nameStr));
+
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '找到此人',
+                    'location_latitude' => Cache::has('location_latitude:' . $nameStr) ? (Cache::get('location_latitude:' . $nameStr)) : 0,
+                    'location_lontitude' => Cache::has('location_lontitude:' . $nameStr) ? (Cache::get('location_lontitude:' . $nameStr)) : 0,
+                    'isUser' => true
+                ));
+            }
+        }
+    }
+
+    /**
+     * 跟踪用户
+     */
+    public function trackUser(Request $request){
+        if($request->ajax()){
+            $nameStr = $request->input('name');
+//            temps是一个集合
+            $temps = ClientUser::where('clientName', $nameStr)->get();
+            $ttt = count($temps);
+            if (count($temps) == 0) {
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '没有此人',
+                    'isUser' => false
+                ));
+            } else {
+                //TODO 这里用户cache会保存最后一次用户所在的位置，(要判断用户是否在线)
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '找到此人',
+                    'location_latitude' => Cache::has('location_latitude:' . $nameStr) ? (Cache::get('location_latitude:' . $nameStr)) : 0,
+                    'location_lontitude' => Cache::has('location_lontitude:' . $nameStr) ? (Cache::get('location_lontitude:' . $nameStr)) : 0,
+                    'isUser' => true
+                ));
+            }
+        }
+    }
+
+    private function registerID($alias)
+    {
+        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET, null, null);
+        $result = $client->device()->getAliasDevices($alias);
+        if(is_null($result))
+            error_log('没有找到别名为:' . $alias .'的设备');
+        else{
+//            找到别名对应的设别注册ID
+            $data = json_encode($result);
+            $dl = json_decode($data,true);
+            error_log($dl['data']['registration_ids'][0]);
+        }
+    }
+
+    private function report()
+    {
+        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+        $report = $client->report();
+    }
+
 
 }

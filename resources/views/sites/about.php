@@ -11,6 +11,7 @@
     <h2>{{time}}</h2>
     <h2>{{location_latitude}}</h2>
     <h2>{{location_lontitude}}</h2>
+    <h2>{{test}}</h2>
     <button onclick="getLocation()">测试</button>
     <div id="test1"></div>
     <div id="test2"></div>
@@ -22,10 +23,11 @@
 <script src="vue/vue.min.js"></script>
 <script type="text/javascript">
     var dat = {
-        message : 'hello world!',
-        location_latitude : 0,
-        location_lontitude : 0,
-        time : getNowFormatDate()
+        message: 'hello world!',
+        location_latitude: 0,
+        location_lontitude: 0,
+        test: 0,
+        time: getNowFormatDate()
     };
     var s = new Vue({
         el: '#fe',
@@ -34,20 +36,19 @@
 
     var t1 = setInterval(update, 1000);
 
-    function update()
-    {
+    function update() {
         dat.time = getNowFormatDate();
         getLocation();
     }
 
-    function getLocation()
-    {
+    function getLocation() {
         $.ajax({
             type: 'get',
             url: 'userGetLocation',
             success: function (json) {
                 dat.location_latitude = json.location_latitude;
                 dat.location_lontitude = json.location_lontitude;
+                dat.test = json.test;
             },
             error: function (xhr, type) {
                 dat.location_latitude = 0;
@@ -74,7 +75,6 @@
             + seperator2 + date.getSeconds();
         return currentdate;
     }
-
 
 </script>
 </body>

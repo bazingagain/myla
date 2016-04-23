@@ -23,9 +23,11 @@ Route::post('/userLogin', 'ClientUserController@login');
 Route::post('/userAdd', 'ClientUserController@add');
 Route::post('/userFind', 'ClientUserController@find');
 Route::get('/userTest', 'ClientUserController@test');
+Route::post('/userSetLocation', 'ClientUserController@setLocation');
 
-Route::get('/userSetLocation', 'ClientUserController@setLocation');
 Route::get('/userGetLocation', 'ClientUserController@getLocation');
+Route::post('/lockUser', 'ClientUserController@lockUser');
+Route::post('/trackUser', 'ClientUserController@trackUser');
 //Route::
 
 /**

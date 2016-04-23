@@ -13,15 +13,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-
+    {{--<link href="packages/bootstrap/css/bootstrap-switch.css" rel="stylesheet">--}}
     {{--<!-- Styles -->--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
     <script src="js/echarts.min.js"></script>
     <script src="js/china.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=siHaBv2ERNA419jqHjf3z9IXGudDozjL"></script>
     {{--<link href="{{ elixir('css/app.css') }}" rel="stylesheet">--}}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    {{--<script src="packages/bootstrap/js/bootstrap-switch.js"></script>--}}
 
 
     <style>

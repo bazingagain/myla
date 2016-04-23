@@ -36,12 +36,15 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a class="close" data-dismiss="modal">X</a>
-                                            <h3>我是拟态框的头部</h3>
+                                            <h3>用户详情</h3>
                                         </div>
 
                                         <div class="modal-body">
-                                            <h4>我是拟态框的中间部分</h4>
-                                            <p>我是描述部分</p>
+                                            <p>用户头像：</p>
+                                            <p>地区：</p>
+                                            <p>个性签名：</p>
+                                            <p>备注：</p>
+                                            <p>最近一次所在地区：</p>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-success">成功</a>
@@ -74,20 +77,6 @@
 @endsection
 
 <script type="text/javascript">
-    function creatTable2() {
-        var table = document.getElementById("table");
-        var tabstr = "";
-        tabstr += "<table class='table'>";
-        for (var i = 0; i < 5; i++) {
-            tabstr += "<tr>";
-            for (var j = 0; j < 5; j++) {
-                tabstr += "<td>heh</td>";
-            }
-            tabstr += "</tr>";
-        }
-        tabstr += "</table>";
-        table.innerHTML = tabstr;
-    }
 
     function findUser() {
 
@@ -106,6 +95,6 @@
                 $("#table").html("<p>没有此人</p>");
             }
         });
-
     }
+
 </script>
