@@ -40,11 +40,36 @@
                                         </div>
 
                                         <div class="modal-body">
-                                            <p>用户头像：</p>
-                                            <p>地区：</p>
-                                            <p>个性签名：</p>
-                                            <p>备注：</p>
-                                            <p>最近一次所在地区：</p>
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <td><div>用户：</div> </td>
+                                                    <td><div id="user_name"></div> </td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>用户头像：</td>
+                                                    <td ><div id="user_pic"></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>个性签名：</td>
+                                                    <td><div id="user_signature"></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>创建时间：</td>
+                                                    <td><div id="user_created_at"></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>更新时间：</td>
+                                                    <td><div id="user_updated_at"></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>最近一次所在位置：</td>
+                                                    <td></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-success">成功</a>
@@ -66,15 +91,6 @@
     </div>
 @endsection
 
-@section('footer')
-    @if(count($people)>0)
-        <ul>
-            @foreach($people as $item)
-                <li>{{$item}}</li>
-            @endforeach
-        </ul>
-    @endif
-@endsection
 
 <script type="text/javascript">
 
@@ -93,6 +109,28 @@
             },
             error: function (xhr, type) {
                 $("#table").html("<p>没有此人</p>");
+            }
+        });
+    }
+
+    function getUserDetail(e){
+        $.ajax({
+            type: 'post',
+            url: 'userDetail',
+            data: {name: e.getAttribute("data-name")},
+            success: function (data) {
+                $("#user_name").html(e.getAttribute("data-name"));
+                $("#user_pic").html(data.pic_url);
+                $("#user_signature").html(data.signature);
+                $("#user_created_at").html(data.created_at);
+                $("#user_updated_at").html(data.updated_at);
+            },
+            error: function (xhr, type) {
+                $("#user_name").html(e.getAttribute("data-name"));
+                $("#user_pic").html('无');
+                $("#user_signature").html('无');
+                $("#user_created_at").html('无');
+                $("#user_updated_at").html('无');
             }
         });
     }

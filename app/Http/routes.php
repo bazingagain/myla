@@ -22,20 +22,24 @@ Route::post('/userRegister', 'ClientUserController@store');
 Route::post('/userLogin', 'ClientUserController@login');
 Route::post('/userAdd', 'ClientUserController@add');
 Route::post('/userFind', 'ClientUserController@find');
+Route::post('/userDetail', 'ClientUserController@detail');
 Route::get('/userTest', 'ClientUserController@test');
 Route::post('/userSetLocation', 'ClientUserController@setLocation');
 
 Route::get('/userGetLocation', 'ClientUserController@getLocation');
 Route::post('/lockUser', 'ClientUserController@lockUser');
 Route::post('/trackUser', 'ClientUserController@trackUser');
-//Route::
+
+
+Route::post('/userModifyPassword', 'ClientUserController@modifyPassword');
+Route::post('/userFeedback', 'ClientUserController@feedback');
 
 Route::group(['prefix' => 'userProfile'], function () {
     Route::post('setSignature','ClientUserController@setSignature');
     Route::post('setNickname','ClientUserController@setNickname');
 //    Route::post('setIcon','ClientUserController@setIcon');
-//    Route::post('setSex','ClientUserController@setSex');
-//    Route::post('setAddress','ClientUserController@setAddress');
+    Route::post('setSex','ClientUserController@setSex');
+    Route::post('setAddress','ClientUserController@setAddress');
 });
 
 /**

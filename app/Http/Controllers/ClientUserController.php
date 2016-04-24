@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Feedback;
 use Redis;
 use Cache;
 use Illuminate\Support\Facades\DB;
 use App\ClientUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -95,22 +98,27 @@ class ClientUserController extends Controller
         error_log($request->input('login'));
         $jsonstr = $request->input('login');
         $array = json_decode($jsonstr, true);
-        $temp = ClientUser::where('clientName', '=', $array['clientName'])->where('password', '=', $array['password'])->get();
+        $temp = ClientUser::where('clientName', '=', $array['clientName'])->get();
         if (count($temp) == 0) {
-            return response()->json(['login' => false, 'message' => '用户不存在', 'nickname'=>null, 'sex'=>null, 'address'=>null, 'signature'=>null]);
+            return response()->json(['login' => false, 'message' => '用户不存在', 'nickname' => null, 'sex' => null, 'address' => null, 'signature' => null]);
         } else {
-            $clientUser = $temp[0];
-            return response()->json(['login' => true, 'message' => '登录成功','nickname'=>$clientUser['nick_name'], 'sex'=>$clientUser['sex'], 'address'=>$clientUser['address'], 'signature'=>$clientUser['signature']]);
+            if ($temp[0]['password'] != $array['password']) {
+                return response()->json(['login' => false, 'message' => '密码错误', 'nickname' => null, 'sex' => null, 'address' => null, 'signature' => null]);
+            } else {
+                $clientUser = $temp[0];
+                return response()->json(['login' => true, 'message' => '登录成功', 'nickname' => $clientUser['nick_name'], 'sex' => $clientUser['sex'], 'address' => $clientUser['address'], 'signature' => $clientUser['signature']]);
+            }
         }
     }
 
-    public function setSignature(Request $request){
+    public function setSignature(Request $request)
+    {
         $jsonstr = $request->input('userSignature');
         $array = json_decode($jsonstr, true);
         $temp = ClientUser::where('clientName', $array['clientName'])->get();
         if (count($temp) == 0) {
             return response()->json(['saveSignature' => false, 'message' => '更新签名失败']);
-        } else{
+        } else {
             $clientUser = $temp[0];
             $clientUser->signature = $array['signature'];
             $clientUser->save();
@@ -119,17 +127,77 @@ class ClientUserController extends Controller
 
     }
 
-    public function setNickname(Request $request){
+    public function setNickname(Request $request)
+    {
         $jsonstr = $request->input('userNickname');
         $array = json_decode($jsonstr, true);
         $temp = ClientUser::where('clientName', $array['clientName'])->get();
         if (count($temp) == 0) {
             return response()->json(['saveNickname' => false, 'message' => '更新签名失败']);
-        } else{
+        } else {
             $clientUser = $temp[0];
             $clientUser->nick_name = $array['nickname'];
             $clientUser->save();
             return response()->json(['saveNickname' => true, 'message' => '更新签名成功']);
+        }
+    }
+
+    //原密码在客户端已经判断是否正确，无需在服务器端验证
+    public function modifyPassword(Request $request)
+    {
+        $jsonstr = $request->input('userModifyPassword');
+        $array = json_decode($jsonstr, true);
+        $temp = ClientUser::where('clientName', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['savePassword' => false, 'message' => '修改密码失败']);
+        } else {
+            $clientUser = $temp[0];
+            $clientUser->password = $array['newPassword'];
+            $clientUser->save();
+            return response()->json(['savePassword' => true, 'message' => '修改密码成功']);
+        }
+    }
+    public function setSex(Request $request){
+        $jsonstr = $request->input('userSex');
+        $array = json_decode($jsonstr, true);
+        $temp = ClientUser::where('clientName', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['saveSex' => false, 'message' => '修改性别失败']);
+        } else {
+            $clientUser = $temp[0];
+            $clientUser->sex = $array['sex'];
+            $clientUser->save();
+            return response()->json(['saveSex' => true, 'message' => '修改性别成功']);
+        }
+    }
+    public function setAddress(Request $request){
+        $jsonstr = $request->input('userAddress');
+        $array = json_decode($jsonstr, true);
+        $temp = ClientUser::where('clientName', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['saveAddress' => false, 'message' => '修改地址失败']);
+        } else {
+            $clientUser = $temp[0];
+            $clientUser->address = $array['address'];
+            $clientUser->save();
+            return response()->json(['saveAddress' => true, 'message' => '修改地址成功']);
+        }
+    }
+
+    public function feedback(Request $request)
+    {
+        $jsonstr = $request->input('userFeedback');
+        $array = json_decode($jsonstr, true);
+        $temp = ClientUser::where('clientName', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['saveFeedback' => false, 'message' => '反馈失败']);
+        } else {
+            $feedback = new Feedback();
+            $feedback->clientName = $array['clientName'];
+//            $feedback->email = $array['email'];
+            $feedback->content = $array['content'];
+            $feedback->save();
+            return response()->json(['saveFeedback' => true, 'message' => '反馈成功']);
         }
     }
 
@@ -212,24 +280,27 @@ class ClientUserController extends Controller
             if (count($temps) == 0) {
                 return Redirect::back()->withInput()->withErrors('查询失败!');
             } else {
-                $check = "<a href='#user_info' data-toggle=\"modal\" class=\"btn btn-primary btn-large\">查看</a>";
+//                $check = "<a href='#user_info' data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getUserDetail(num)'>查看</a>";
 
                 $tabstr = "<table class='table'>";
                 $tabstr .= "<thead align=\"center\">
                             <tr>
                                 <td>客户ID</td>
                                 <td>客户名</td>
-                                <td>创建时间</td>
-                                <td>更新时间</td>
+                                <td>昵称</td>
+                                <td>性别</td>
+                                <td>地址</td>
                                 <td>详细信息</td>
                             </tr>
                         </thead><tbody align=\"center\">";
                 foreach ($temps as $temp) {
                     $id = $temp->id;
                     $clientName = $temp->clientName;
-                    $created_at = $temp->created_at;
-                    $updated_at = $temp->updated_at;
-                    $tabstr .= "<tr><td>" . $id . "</td><td>" . $clientName . "</td><td>" . $created_at . "</td><td>" . $updated_at . "</td><td>" . $check . "</td></tr>";
+                    $nickName = $temp->nick_name;
+                    $sex = $temp->sex;
+                    $address = $temp->address;
+                    $check = "<a href='#user_info' data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getUserDetail(this)'>查看</a>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $nickName . "</td><td>". $sex . "</td><td>" . $address . "</td><td>" . $check . "</td></tr>";
                 }
                 $tabstr .= "</table>";
                 return response()->json(array(
@@ -240,6 +311,39 @@ class ClientUserController extends Controller
         }
 
     }
+    public function detail(Request $request)
+    {
+        if ($request->ajax()) {
+            $nameStr = $request->input('name');
+//            temps是一个集合
+            $temps = ClientUser::where('clientName', '=', $nameStr)->get();
+            $ttt = count($temps);
+            if (count($temps) == 0) {
+                return Redirect::back()->withInput()->withErrors('查询失败!');
+            } else {
+                //只循环一次
+                $pic_url = null;
+                $signature = null;
+                $created_at = null;
+                $updated_at = null;
+                foreach ($temps as $temp) {
+                    $pic_url = $temp->pic_url;
+                    $signature = $temp->signature;
+                    $created_at = $temp->created_at;
+                    $updated_at = $temp->updated_at;
+                }
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '成功',
+                    'pic_url' => ''.$pic_url,
+                    'signature' =>''.$signature,
+                    'created_at' =>''.$created_at,
+                    'updated_at' =>''.$updated_at,
+                ));
+            }
+        }
+    }
+
 
     public function lockUser(Request $request)
     {
@@ -256,8 +360,8 @@ class ClientUserController extends Controller
                 ));
             } else {
 //                self::registerID($nameStr);
-                error_log('location_latitude:'.Cache::get('location_latitude:' . $nameStr));
-                error_log('location_lontitude:'.Cache::get('location_lontitude:' . $nameStr));
+                error_log('location_latitude:' . Cache::get('location_latitude:' . $nameStr));
+                error_log('location_lontitude:' . Cache::get('location_lontitude:' . $nameStr));
 
                 return response()->json(array(
                     'status' => 1,
@@ -273,8 +377,9 @@ class ClientUserController extends Controller
     /**
      * 跟踪用户
      */
-    public function trackUser(Request $request){
-        if($request->ajax()){
+    public function trackUser(Request $request)
+    {
+        if ($request->ajax()) {
             $nameStr = $request->input('name');
 //            temps是一个集合
             $temps = ClientUser::where('clientName', $nameStr)->get();
@@ -302,12 +407,12 @@ class ClientUserController extends Controller
     {
         $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET, null, null);
         $result = $client->device()->getAliasDevices($alias);
-        if(is_null($result))
-            error_log('没有找到别名为:' . $alias .'的设备');
-        else{
+        if (is_null($result))
+            error_log('没有找到别名为:' . $alias . '的设备');
+        else {
 //            找到别名对应的设别注册ID
             $data = json_encode($result);
-            $dl = json_decode($data,true);
+            $dl = json_decode($data, true);
             error_log($dl['data']['registration_ids'][0]);
         }
     }
