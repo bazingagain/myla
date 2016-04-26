@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::post('/userRegister', 'ClientUserController@store');
 Route::post('/userLogin', 'ClientUserController@login');
 Route::post('/userAdd', 'ClientUserController@add');
+Route::post('/userAgree', 'ClientUserController@agree');
 Route::post('/userFind', 'ClientUserController@find');
 Route::post('/userDetail', 'ClientUserController@detail');
 Route::get('/userTest', 'ClientUserController@test');

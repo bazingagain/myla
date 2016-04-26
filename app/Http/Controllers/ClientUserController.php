@@ -157,7 +157,9 @@ class ClientUserController extends Controller
             return response()->json(['savePassword' => true, 'message' => '修改密码成功']);
         }
     }
-    public function setSex(Request $request){
+
+    public function setSex(Request $request)
+    {
         $jsonstr = $request->input('userSex');
         $array = json_decode($jsonstr, true);
         $temp = ClientUser::where('clientName', $array['clientName'])->get();
@@ -170,7 +172,9 @@ class ClientUserController extends Controller
             return response()->json(['saveSex' => true, 'message' => '修改性别成功']);
         }
     }
-    public function setAddress(Request $request){
+
+    public function setAddress(Request $request)
+    {
         $jsonstr = $request->input('userAddress');
         $array = json_decode($jsonstr, true);
         $temp = ClientUser::where('clientName', $array['clientName'])->get();
@@ -211,23 +215,55 @@ class ClientUserController extends Controller
     {
         $jsonstr = $request->input('add');
         $array = json_decode($jsonstr, true);
+        //查找要添加的朋友是否在数据库中，
         $temp = ClientUser::where('clientName', '=', $array['friendName'])->get();
         if (count($temp) == 0) {
             return response()->json(['add' => false, 'message' => '用户不存在']);
         } else {
-            //TODO   找到要添加用户，发送JPUSH  推送请求
+            $temp = ClientUser::where('clientName', '=', $array['clientName'])->get();
+            if (count($temp) == 0) {  //  自己不存在
+                return response()->json(['add' => false, 'message' => '请求非法']);
+            } else {
+                $requsetUser = $temp[0];
+                //TODO   找到要添加用户，发送JPUSH  推送请求
+                $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+                $result = $client->push()
+                    ->setPlatform('android')
+                    ->addAlias($array['friendName'])
+                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
+                    ->setOptions(100000, 3600, null, false)
+                    ->send();
+                return response()->json(['add' => true, 'message' => '已发送请求']);
+            }
+
+        }
+    }
+
+    /**
+     * 同意 添加好友请求
+     */
+    public function agree(Request $request){
+        $jsonstr = $request->input('userAgree');
+        $array = json_decode($jsonstr, true);
+
+        $temp = ClientUser::where('clientName', '=', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['saveAgree' => false, 'message' => '用户不存在']);
+        } else {
+            $agreeUser = $temp[0];
+            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['clientName'], $array['requsetUserName']]);
+            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['requsetUserName'], $array['clientName']]);
+            error_log('好友关系'.$array['clientName'].':'.$array['requsetUserName'].'插入成功');
             $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
             $result = $client->push()
                 ->setPlatform('android')
-                ->addAlias($array['friendName'])
-                ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array("newFriend" => $array['clientName']))
+                ->addAlias($array['requsetUserName'])
+                ->addAndroidNotification('添加好友'.$array['clientName'].'成功', null, 1, array('type'=>'agree', "friend_name" => $agreeUser->clientName, 'friend_nickname' => $agreeUser->nick_name, 'pic_url' => $agreeUser->pic_url, 'friend_sex' => $agreeUser->sex, 'friend_address' => $agreeUser->address, 'friend_signature' => $agreeUser->signature))
                 ->setOptions(100000, 3600, null, false)
                 ->send();
-//            echo 'Result=' . json_encode($result) . $br;
-//            return response()->json(['add' => true, 'message' => '登录成功']);
-            return response()->json(['add' => true, 'message' => '已发送请求']);
-
+            return response()->json(['saveAgree'=>true, 'message' => '同意好友添加请求']);
         }
+
     }
 
     /**
@@ -300,7 +336,7 @@ class ClientUserController extends Controller
                     $sex = $temp->sex;
                     $address = $temp->address;
                     $check = "<a href='#user_info' data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getUserDetail(this)'>查看</a>";
-                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $nickName . "</td><td>". $sex . "</td><td>" . $address . "</td><td>" . $check . "</td></tr>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $nickName . "</td><td>" . $sex . "</td><td>" . $address . "</td><td>" . $check . "</td></tr>";
                 }
                 $tabstr .= "</table>";
                 return response()->json(array(
@@ -311,6 +347,7 @@ class ClientUserController extends Controller
         }
 
     }
+
     public function detail(Request $request)
     {
         if ($request->ajax()) {
@@ -335,10 +372,10 @@ class ClientUserController extends Controller
                 return response()->json(array(
                     'status' => 1,
                     'msg' => '成功',
-                    'pic_url' => ''.$pic_url,
-                    'signature' =>''.$signature,
-                    'created_at' =>''.$created_at,
-                    'updated_at' =>''.$updated_at,
+                    'pic_url' => '' . $pic_url,
+                    'signature' => '' . $signature,
+                    'created_at' => '' . $created_at,
+                    'updated_at' => '' . $updated_at,
                 ));
             }
         }
