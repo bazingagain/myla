@@ -44,17 +44,17 @@
       <file leaf-file-name="ClientUserController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4013267">
-              <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.49585405">
+              <caret line="230" column="43" selection-start-line="230" selection-start-column="43" selection-end-line="230" selection-end-column="43" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
-                <marker date="1461727064489" expanded="true" signature="9735:9800" placeholder="insert into friend_relations... " />
-                <marker date="1461727064489" expanded="true" signature="9879:9944" placeholder="insert into friend_relations... " />
-                <marker date="1461727064489" expanded="true" signature="13324:14476" placeholder="..." />
-                <marker date="1461727064489" expanded="true" signature="13379:13748" placeholder="..." />
-                <marker date="1461727064489" expanded="true" signature="13412:13715" placeholder="..." />
-                <marker date="1461727064489" expanded="true" signature="16340:16667" placeholder="..." />
-                <marker date="1461727064489" expanded="true" signature="16373:16634" placeholder="..." />
+                <marker date="1461727264013" expanded="true" signature="9597:9662" placeholder="insert into friend_relations... " />
+                <marker date="1461727264013" expanded="true" signature="9741:9806" placeholder="insert into friend_relations... " />
+                <marker date="1461727264013" expanded="true" signature="13186:14338" placeholder="..." />
+                <marker date="1461727264013" expanded="true" signature="13241:13610" placeholder="..." />
+                <marker date="1461727264013" expanded="true" signature="13274:13577" placeholder="..." />
+                <marker date="1461727264013" expanded="true" signature="16202:16529" placeholder="..." />
+                <marker date="1461727264013" expanded="true" signature="16235:16496" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -979,17 +979,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4013267">
-          <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.49585405">
+          <caret line="230" column="43" selection-start-line="230" selection-start-column="43" selection-end-line="230" selection-end-column="43" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
-            <marker date="1461727064489" expanded="true" signature="9735:9800" placeholder="insert into friend_relations... " />
-            <marker date="1461727064489" expanded="true" signature="9879:9944" placeholder="insert into friend_relations... " />
-            <marker date="1461727064489" expanded="true" signature="13324:14476" placeholder="..." />
-            <marker date="1461727064489" expanded="true" signature="13379:13748" placeholder="..." />
-            <marker date="1461727064489" expanded="true" signature="13412:13715" placeholder="..." />
-            <marker date="1461727064489" expanded="true" signature="16340:16667" placeholder="..." />
-            <marker date="1461727064489" expanded="true" signature="16373:16634" placeholder="..." />
+            <marker date="1461727264013" expanded="true" signature="9597:9662" placeholder="insert into friend_relations... " />
+            <marker date="1461727264013" expanded="true" signature="9741:9806" placeholder="insert into friend_relations... " />
+            <marker date="1461727264013" expanded="true" signature="13186:14338" placeholder="..." />
+            <marker date="1461727264013" expanded="true" signature="13241:13610" placeholder="..." />
+            <marker date="1461727264013" expanded="true" signature="13274:13577" placeholder="..." />
+            <marker date="1461727264013" expanded="true" signature="16202:16529" placeholder="..." />
+            <marker date="1461727264013" expanded="true" signature="16235:16496" placeholder="..." />
           </folding>
         </state>
       </provider>
