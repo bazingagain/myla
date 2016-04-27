@@ -258,6 +258,8 @@ class ClientUserController extends Controller
                     ->addAndroidNotification('hi')
                     ->setOptions(100000, 86400, null, false)
                     ->send();
+                    error_log('>>>>push result<<<<');
+                    error_log(json_decode($result));
             }
     }
 
