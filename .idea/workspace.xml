@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="992fa16b-4b8b-4f88-b706-99b39f14642c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/jpush.log" afterPath="$PROJECT_DIR$/public/jpush.log" />
     </list>
     <ignored path="myla.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,17 +45,17 @@
       <file leaf-file-name="ClientUserController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49585405">
-              <caret line="230" column="43" selection-start-line="230" selection-start-column="43" selection-end-line="230" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.5273632">
+              <caret line="228" column="29" selection-start-line="228" selection-start-column="29" selection-end-line="228" selection-end-column="29" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
-                <marker date="1461727264013" expanded="true" signature="9597:9662" placeholder="insert into friend_relations... " />
-                <marker date="1461727264013" expanded="true" signature="9741:9806" placeholder="insert into friend_relations... " />
-                <marker date="1461727264013" expanded="true" signature="13186:14338" placeholder="..." />
-                <marker date="1461727264013" expanded="true" signature="13241:13610" placeholder="..." />
-                <marker date="1461727264013" expanded="true" signature="13274:13577" placeholder="..." />
-                <marker date="1461727264013" expanded="true" signature="16202:16529" placeholder="..." />
-                <marker date="1461727264013" expanded="true" signature="16235:16496" placeholder="..." />
+                <marker date="1461727837738" expanded="true" signature="9597:9662" placeholder="insert into friend_relations... " />
+                <marker date="1461727837738" expanded="true" signature="9741:9806" placeholder="insert into friend_relations... " />
+                <marker date="1461727837738" expanded="true" signature="13186:14338" placeholder="..." />
+                <marker date="1461727837738" expanded="true" signature="13241:13610" placeholder="..." />
+                <marker date="1461727837738" expanded="true" signature="13274:13577" placeholder="..." />
+                <marker date="1461727837738" expanded="true" signature="16202:16529" placeholder="..." />
+                <marker date="1461727837738" expanded="true" signature="16235:16496" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -979,17 +980,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49585405">
-          <caret line="230" column="43" selection-start-line="230" selection-start-column="43" selection-end-line="230" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.5273632">
+          <caret line="228" column="29" selection-start-line="228" selection-start-column="29" selection-end-line="228" selection-end-column="29" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
-            <marker date="1461727264013" expanded="true" signature="9597:9662" placeholder="insert into friend_relations... " />
-            <marker date="1461727264013" expanded="true" signature="9741:9806" placeholder="insert into friend_relations... " />
-            <marker date="1461727264013" expanded="true" signature="13186:14338" placeholder="..." />
-            <marker date="1461727264013" expanded="true" signature="13241:13610" placeholder="..." />
-            <marker date="1461727264013" expanded="true" signature="13274:13577" placeholder="..." />
-            <marker date="1461727264013" expanded="true" signature="16202:16529" placeholder="..." />
-            <marker date="1461727264013" expanded="true" signature="16235:16496" placeholder="..." />
+            <marker date="1461727837738" expanded="true" signature="9597:9662" placeholder="insert into friend_relations... " />
+            <marker date="1461727837738" expanded="true" signature="9741:9806" placeholder="insert into friend_relations... " />
+            <marker date="1461727837738" expanded="true" signature="13186:14338" placeholder="..." />
+            <marker date="1461727837738" expanded="true" signature="13241:13610" placeholder="..." />
+            <marker date="1461727837738" expanded="true" signature="13274:13577" placeholder="..." />
+            <marker date="1461727837738" expanded="true" signature="16202:16529" placeholder="..." />
+            <marker date="1461727837738" expanded="true" signature="16235:16496" placeholder="..." />
           </folding>
         </state>
       </provider>
