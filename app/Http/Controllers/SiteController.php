@@ -26,6 +26,9 @@ class SiteController extends Controller
     public function statisticData(){
         return view('sites.statistic_data');
     }
+    public function showFeedback(){
+        return view('sites.feedback');
+    }
 
 }
 

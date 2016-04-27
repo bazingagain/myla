@@ -24,6 +24,11 @@ Route::post('/userAdd', 'ClientUserController@add');
 Route::post('/userAgree', 'ClientUserController@agree');
 Route::post('/userFind', 'ClientUserController@find');
 Route::post('/userDetail', 'ClientUserController@detail');
+
+Route::get('/feedbackAll', 'ClientUserController@feedbackAll');
+
+Route::post('/feedbackDetail', 'ClientUserController@feedbackDetail');
+
 Route::get('/userTest', 'ClientUserController@test');
 Route::post('/userSetLocation', 'ClientUserController@setLocation');
 
@@ -76,6 +81,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/user_manage', 'SiteController@managerUser');
     Route::get('/show_map', 'SiteController@showMap');
     Route::get('/statistic_data', 'SiteController@statisticData');
+    Route::get('/show_feedback', 'SiteController@showFeedback');
     //    防止 出现为定义的  $errors报错
 //    Route::get('/articles','ArticleController@index');
 //    Route::get('/articles/create','ArticleController@create');

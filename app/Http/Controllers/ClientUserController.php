@@ -338,7 +338,7 @@ class ClientUserController extends Controller
                     $check = "<a href='#user_info' data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getUserDetail(this)'>查看</a>";
                     $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $nickName . "</td><td>" . $sex . "</td><td>" . $address . "</td><td>" . $check . "</td></tr>";
                 }
-                $tabstr .= "</table>";
+                $tabstr .= "</tbody></table>";
                 return response()->json(array(
                     'status' => 1,
                     'msg' => $tabstr,
@@ -376,6 +376,96 @@ class ClientUserController extends Controller
                     'signature' => '' . $signature,
                     'created_at' => '' . $created_at,
                     'updated_at' => '' . $updated_at,
+                ));
+            }
+        }
+    }
+    public function feedbackAll(Request $request){
+        if($request->ajax()){
+//            temps是一个集合
+            $temps = Feedback::all();
+            $ttt = count($temps);
+            if (count($temps) <= 0) {
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '<p>暂无用户反馈</p>',
+                ));
+            } else {
+                $tabstr = "<table class='table'>";
+                $tabstr .= "<thead align=\"center\">
+                            <tr>
+                                <td>反馈ID</td>
+                                <td>客户名</td>
+                                <td>邮箱</td>
+                                <td>反馈摘要</td>
+                                <td>反馈详情</td>
+                            </tr>
+                        </thead><tbody align=\"center\">";
+                foreach ($temps as $temp) {
+                    $id = $temp->id;
+                    $clientName = $temp->clientName;
+                    $email = $temp->email;
+                    $feedbackDigest = self::cubstr($temp->content, 0, 8);
+                    $check = "<a href='#feedback_info' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getFeedbackDetail(this)'>查看</a>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $check . "</td></tr>";
+                }
+                $tabstr .= "</tbody></table>";
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => $tabstr,
+                ));
+            }
+        }
+    }
+
+    /**
+     * 解决substr 截取汉字乱码问题
+     * @param $string
+     * @param $beginIndex
+     * @param $length
+     * @return string
+     */
+    function cubstr($string, $beginIndex, $length){
+        if(strlen($string) < $length){
+            return substr($string, $beginIndex);
+        }
+
+        $char = ord($string[$beginIndex + $length - 1]);
+        if($char >= 224 && $char <= 239){
+            $str = substr($string, $beginIndex, $length - 1);
+            return $str;
+        }
+
+        $char = ord($string[$beginIndex + $length - 2]);
+        if($char >= 224 && $char <= 239){
+            $str = substr($string, $beginIndex, $length - 2);
+            return $str;
+        }
+
+        return substr($string, $beginIndex, $length);
+    }
+
+    public function feedbackDetail(Request $request){
+        if ($request->ajax()) {
+            $idStr = $request->input('id');
+//            temps是一个集合
+            $temps = Feedback::where('id', '=', $idStr)->get();
+            if (count($temps) == 0) {
+                return Redirect::back()->withInput()->withErrors('查询失败!');
+            } else {
+                //只循环一次
+                $feedback_content = null;
+                $created_at = null;
+                foreach ($temps as $temp) {
+                    $feedback_content = $temp->content;
+                    $created_at = $temp->created_at;
+                }
+               error_log($feedback_content);
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '成功',
+                    'feedback_content' => $feedback_content,
+                    'created_at' => '' . $created_at,
                 ));
             }
         }
