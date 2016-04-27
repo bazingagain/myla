@@ -245,17 +245,18 @@ class ClientUserController extends Controller
     public function sendPush(Request $request)
     {
         if($request->ajax()){
-            $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
-            error_log('send jpush');
+            $client = new /JPush(self::$APP_KEY, self::$MASTER_SECRET);
+//            $result = $client->push()
+//                ->setPlatform('all')
+//                ->addAllAudience()
+//                ->setNotificationAlert('Hi, JPush')
+//                ->send();
             $result = $client->push()
-                ->setPlatform('all')
-                ->addAllAudience()
-                ->setNotificationAlert('Hi, JPush')
-                ->send();
-
-//                if(isset($result'error'])){
-//
-//                }
+                    ->setPlatform('android')
+                    ->addAllAudience()
+                    ->addAndroidNotification('hi')
+                    ->setOptions(100000, 86400, null, false)
+                    ->send();
             }
     }
 
