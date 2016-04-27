@@ -225,14 +225,16 @@ class ClientUserController extends Controller
                 return response()->json(['add' => false, 'message' => '请求非法']);
             } else {
                 $requsetUser = $temp[0];
-                //TODO   找到要添加用户，发送JPUSH  推送请求
+                //TODO   找到要添加用户，发送JPUSH  推送请求  离线消息保留1天 开发环境
                 $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
-                $result = $client->push()
-                    ->setPlatform('android')
-                    ->addAlias($array['friendName'])
-                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
-                    ->setOptions(100000, 3600, null, false)
-                    ->send();
+                error_log('要发送到 friendName:');
+//                $result = $client->push()
+//                    ->setPlatform('android')
+//                    ->addAlias($array['friendName'])
+//                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
+//                    ->setOptions(100000, 86400, null, false)
+//                    ->send();
+                error_log('到达2');
                 return response()->json(['add' => true, 'message' => '已发送请求']);
             }
 
@@ -264,6 +266,26 @@ class ClientUserController extends Controller
             return response()->json(['saveAgree'=>true, 'message' => '同意好友添加请求']);
         }
 
+    }
+
+    private function registerID($alias)
+    {
+        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET, null, null);
+        $result = $client->device()->getAliasDevices($alias);
+        if (is_null($result))
+            error_log('没有找到别名为:' . $alias . '的设备');
+        else {
+//            找到别名对应的设别注册ID
+            $data = json_encode($result);
+            $dl = json_decode($data, true);
+            error_log($dl['data']['registration_ids'][0]);
+        }
+    }
+
+    private function report()
+    {
+        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+        $report = $client->report();
     }
 
     /**
@@ -530,25 +552,6 @@ class ClientUserController extends Controller
         }
     }
 
-    private function registerID($alias)
-    {
-        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET, null, null);
-        $result = $client->device()->getAliasDevices($alias);
-        if (is_null($result))
-            error_log('没有找到别名为:' . $alias . '的设备');
-        else {
-//            找到别名对应的设别注册ID
-            $data = json_encode($result);
-            $dl = json_decode($data, true);
-            error_log($dl['data']['registration_ids'][0]);
-        }
-    }
-
-    private function report()
-    {
-        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
-        $report = $client->report();
-    }
 
 
 }
