@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="992fa16b-4b8b-4f88-b706-99b39f14642c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" />
     </list>
     <ignored path="myla.iws" />
@@ -34,7 +35,7 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.214286">
+            <state vertical-scroll-proportion="-8.142858">
               <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
               <folding />
             </state>
@@ -44,17 +45,17 @@
       <file leaf-file-name="ClientUserController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62189054">
-              <caret line="228" column="29" selection-start-line="228" selection-start-column="29" selection-end-line="228" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.5273632">
+              <caret line="228" column="31" selection-start-line="228" selection-start-column="31" selection-end-line="228" selection-end-column="31" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
-                <marker date="1461725345447" expanded="true" signature="9349:9414" placeholder="insert into friend_relations... " />
-                <marker date="1461725345447" expanded="true" signature="9493:9558" placeholder="insert into friend_relations... " />
-                <marker date="1461725345447" expanded="true" signature="12938:14090" placeholder="..." />
-                <marker date="1461725345447" expanded="true" signature="12993:13362" placeholder="..." />
-                <marker date="1461725345447" expanded="true" signature="13026:13329" placeholder="..." />
-                <marker date="1461725345447" expanded="true" signature="15954:16281" placeholder="..." />
-                <marker date="1461725345447" expanded="true" signature="15987:16248" placeholder="..." />
+                <marker date="1461726526403" expanded="true" signature="9595:9660" placeholder="insert into friend_relations... " />
+                <marker date="1461726526403" expanded="true" signature="9739:9804" placeholder="insert into friend_relations... " />
+                <marker date="1461726526403" expanded="true" signature="13184:14336" placeholder="..." />
+                <marker date="1461726526403" expanded="true" signature="13239:13608" placeholder="..." />
+                <marker date="1461726526403" expanded="true" signature="13272:13575" placeholder="..." />
+                <marker date="1461726526403" expanded="true" signature="16200:16527" placeholder="..." />
+                <marker date="1461726526403" expanded="true" signature="16233:16494" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -63,8 +64,8 @@
       <file leaf-file-name="push_example.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vendor/jpush/jpush/examples/push_example.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.214286">
-              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="36" selection-end-column="13" />
+            <state vertical-scroll-proportion="-6.107143">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="22" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -929,14 +930,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.214286">
-          <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/sites/feedback.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -961,14 +954,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/jpush/jpush/examples/push_example.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.214286">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="36" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/sites/manager_user.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-20.178572">
@@ -977,19 +962,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.142858">
+          <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/jpush/jpush/examples/push_example.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.107143">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="22" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62189054">
-          <caret line="228" column="29" selection-start-line="228" selection-start-column="29" selection-end-line="228" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.5273632">
+          <caret line="228" column="31" selection-start-line="228" selection-start-column="31" selection-end-line="228" selection-end-column="31" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
-            <marker date="1461725345447" expanded="true" signature="9349:9414" placeholder="insert into friend_relations... " />
-            <marker date="1461725345447" expanded="true" signature="9493:9558" placeholder="insert into friend_relations... " />
-            <marker date="1461725345447" expanded="true" signature="12938:14090" placeholder="..." />
-            <marker date="1461725345447" expanded="true" signature="12993:13362" placeholder="..." />
-            <marker date="1461725345447" expanded="true" signature="13026:13329" placeholder="..." />
-            <marker date="1461725345447" expanded="true" signature="15954:16281" placeholder="..." />
-            <marker date="1461725345447" expanded="true" signature="15987:16248" placeholder="..." />
+            <marker date="1461726526403" expanded="true" signature="9595:9660" placeholder="insert into friend_relations... " />
+            <marker date="1461726526403" expanded="true" signature="9739:9804" placeholder="insert into friend_relations... " />
+            <marker date="1461726526403" expanded="true" signature="13184:14336" placeholder="..." />
+            <marker date="1461726526403" expanded="true" signature="13239:13608" placeholder="..." />
+            <marker date="1461726526403" expanded="true" signature="13272:13575" placeholder="..." />
+            <marker date="1461726526403" expanded="true" signature="16200:16527" placeholder="..." />
+            <marker date="1461726526403" expanded="true" signature="16233:16494" placeholder="..." />
           </folding>
         </state>
       </provider>
