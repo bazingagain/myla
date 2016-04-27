@@ -41,31 +41,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="autoload.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="autoload.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bootstrap/autoload.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.857142">
+            <state vertical-scroll-proportion="0.5041459">
               <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientUserController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4593698">
-              <caret line="228" column="29" selection-start-line="228" selection-start-column="29" selection-end-line="228" selection-end-column="29" />
-              <folding>
-                <element signature="e#40#57#0#PHP" expanded="true" />
-                <marker date="1461737528791" expanded="true" signature="9630:9695" placeholder="insert into friend_relations... " />
-                <marker date="1461737528791" expanded="true" signature="9774:9839" placeholder="insert into friend_relations... " />
-                <marker date="1461737528791" expanded="true" signature="13219:14371" placeholder="..." />
-                <marker date="1461737528791" expanded="true" signature="13274:13643" placeholder="..." />
-                <marker date="1461737528791" expanded="true" signature="13307:13610" placeholder="..." />
-                <marker date="1461737528791" expanded="true" signature="16235:16562" placeholder="..." />
-                <marker date="1461737528791" expanded="true" signature="16268:16529" placeholder="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -714,14 +695,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bootstrap/autoload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.857142">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/jpush/jpush/src/JPush/JPush.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.8905473">
@@ -732,7 +705,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4593698">
+        <state vertical-scroll-proportion="0.5538972">
           <caret line="228" column="29" selection-start-line="228" selection-start-column="29" selection-end-line="228" selection-end-column="29" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
@@ -744,6 +717,14 @@
             <marker date="1461737528791" expanded="true" signature="16235:16562" placeholder="..." />
             <marker date="1461737528791" expanded="true" signature="16268:16529" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bootstrap/autoload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5041459">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
