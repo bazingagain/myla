@@ -220,13 +220,14 @@ class ClientUserController extends Controller
                 $requsetUser = $temp[0];
                 //TODO   找到要添加用户，发送JPUSH  推送请求  离线消息保留1天 开发环境
                 $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
-//                $sss1 =utf8_encode('要发送到:friendName:');
                     error_log('send jpush');
                 $result = $client->push()
                     ->setPlatform('all')
                     ->addAllAudience()
                     ->setNotificationAlert('Hi, JPush')
                     ->send();
+
+
 
                 error_log('send ok');
 //                $result = $client->push()
@@ -239,6 +240,23 @@ class ClientUserController extends Controller
             }
 
         }
+    }
+
+    public function sendPush(Request $request)
+    {
+        if($request->ajax()){
+            $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+            error_log('send jpush');
+            $result = $client->push()
+                ->setPlatform('all')
+                ->addAllAudience()
+                ->setNotificationAlert('Hi, JPush')
+                ->send();
+
+//                if(isset($result'error'])){
+//
+//                }
+            }
     }
 
     /**

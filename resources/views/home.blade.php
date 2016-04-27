@@ -9,6 +9,7 @@
                 <li role="presentation"><a href="{{url('/show_map')}}">地图显示</a></li>
                 <li role="presentation"><a href="{{url('/static_data')}}">数据统计</a></li>
                 <li role="presentation"><a href="{{url('/show_feedback')}}">用户反馈</a></li>
+                <li role="presentation"><a href="{{url('/func_test')}}">用户反馈</a></li>
             </ul>
         </div>
         <div class="container">

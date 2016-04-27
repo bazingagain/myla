@@ -40,6 +40,8 @@ Route::post('/trackUser', 'ClientUserController@trackUser');
 Route::post('/userModifyPassword', 'ClientUserController@modifyPassword');
 Route::post('/userFeedback', 'ClientUserController@feedback');
 
+Route::post('/sendPush', 'ClientUserController@sendPush');
+
 Route::group(['prefix' => 'userProfile'], function () {
     Route::post('setSignature','ClientUserController@setSignature');
     Route::post('setNickname','ClientUserController@setNickname');
@@ -82,6 +84,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/show_map', 'SiteController@showMap');
     Route::get('/statistic_data', 'SiteController@statisticData');
     Route::get('/show_feedback', 'SiteController@showFeedback');
+    Route::get('/func_test', 'SiteController@showFunctest');
     //    防止 出现为定义的  $errors报错
 //    Route::get('/articles','ArticleController@index');
 //    Route::get('/articles/create','ArticleController@create');

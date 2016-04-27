@@ -29,6 +29,9 @@ class SiteController extends Controller
     public function showFeedback(){
         return view('sites.feedback');
     }
+    public function showFunctest(){
+        return view('sites.functest');
+    }
 
 }
 
