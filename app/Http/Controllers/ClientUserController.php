@@ -41,25 +41,18 @@ class ClientUserController extends Controller
      */
     public function test()
     {
-//        Redis::set('name', 'Taylor');
-//        Redis::set()
-//        $values = Redis::lrange('names', 5, 10);
-        /*$values = Redis::command('set', ['name', 'Taylor']);
-        Redis::pipeline(function ($pipe) {
-            for ($i = 0; $i < 10; $i++) {
-                $pipe->set("key:$i", $i);
-            }
-        });*/
 
-        $br = '<br/>';
         $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
         $result = $client->push()
-            ->setPlatform('all')
-            ->addAllAudience()
+            ->setPlatform(array('ios', 'android'))
+            ->addAlias('alias1')
+            ->addTag(array('tag1', 'tag2'))
             ->setNotificationAlert('Hi, JPush')
+            ->addAndroidNotification('Hi, android notification', 'notification title', 1, array("key1"=>"value1", "key2"=>"value2"))
+            ->addIosNotification("Hi, iOS notification", 'iOS sound', JPush::DISABLE_BADGE, true, 'iOS category', array("key1"=>"value1", "key2"=>"value2"))
+            ->setMessage("msg content", 'msg title', 'type', array("key1"=>"value1", "key2"=>"value2"))
+            ->setOptions(100000, 3600, null, false)
             ->send();
-
-        echo 'Result=' . json_encode($result) . $br;
     }
 
 
@@ -228,12 +221,12 @@ class ClientUserController extends Controller
                 //TODO   找到要添加用户，发送JPUSH  推送请求  离线消息保留1天 开发环境
                 $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
                 error_log('要发送到 friendName:');
-//                $result = $client->push()
-//                    ->setPlatform('android')
-//                    ->addAlias($array['friendName'])
-//                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
-//                    ->setOptions(100000, 86400, null, false)
-//                    ->send();
+                $result = $client->push()
+                    ->setPlatform('android')
+                    ->addAlias($array['friendName'])
+                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
+                    ->setOptions(100000, 86400, null, false)
+                    ->send();
                 error_log('到达2');
                 return response()->json(['add' => true, 'message' => '已发送请求']);
             }
