@@ -246,7 +246,7 @@ class ClientUserController extends Controller
     public function sendPush(Request $request)
     {
         if($request->ajax()){
-            $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+            $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
 //            $result = $client->push()
 //                ->setPlatform('all')
 //                ->addAllAudience()
