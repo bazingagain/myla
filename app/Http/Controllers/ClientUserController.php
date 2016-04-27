@@ -43,7 +43,7 @@ class ClientUserController extends Controller
     public function test()
     {
 
-        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+        $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
         $result = $client->push()
             ->setPlatform(array('ios', 'android'))
             ->addAlias('alias1')
@@ -220,7 +220,7 @@ class ClientUserController extends Controller
             } else {
                 $requsetUser = $temp[0];
                 //TODO   找到要添加用户，发送JPUSH  推送请求  离线消息保留1天 开发环境
-                $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+                $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
                     error_log('send jpush');
                 $result = $client->push()
                     ->setPlatform('all')
@@ -304,7 +304,7 @@ class ClientUserController extends Controller
 
     private function report()
     {
-        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
+        $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
         $report = $client->report();
     }
 
