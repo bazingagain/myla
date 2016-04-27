@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
+use JPush;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -245,7 +246,7 @@ class ClientUserController extends Controller
     public function sendPush(Request $request)
     {
         if($request->ajax()){
-            $client = new /JPush(self::$APP_KEY, self::$MASTER_SECRET);
+            $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
 //            $result = $client->push()
 //                ->setPlatform('all')
 //                ->addAllAudience()
@@ -289,7 +290,7 @@ class ClientUserController extends Controller
 
     private function registerID($alias)
     {
-        $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET, null, null);
+        $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET, null, null);
         $result = $client->device()->getAliasDevices($alias);
         if (is_null($result))
             error_log('没有找到别名为:' . $alias . '的设备');

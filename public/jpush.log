@@ -10,3 +10,6 @@ Send POST https://api.jpush.cn/v3/push, body:{"platform":["android"],"audience":
 Send POST https://api.jpush.cn/v3/push, body:{"platform":["android"],"audience":"all","notification":{"android":{"alert":"hi"}},"options":{"sendno":100000,"time_to_live":86400,"apns_production":false}}, times:1
 Send POST https://api.jpush.cn/v3/push, body:{"platform":["android"],"audience":"all","notification":{"android":{"alert":"hi"}},"options":{"sendno":100000,"time_to_live":86400,"apns_production":false}}, times:1
 Send POST https://api.jpush.cn/v3/push, body:{"platform":["android"],"audience":"all","notification":{"android":{"alert":"hi"}},"options":{"sendno":100000,"time_to_live":86400,"apns_production":false}}, times:1
+Send POST https://api.jpush.cn/v3/push, body:{"platform":["android"],"audience":"all","notification":{"android":{"alert":"hi"}},"options":{"sendno":100000,"time_to_live":86400,"apns_production":false}}, times:1
+Send POST https://api.jpush.cn/v3/push, body:{"platform":["android"],"audience":"all","notification":{"android":{"alert":"hi"}},"options":{"sendno":100000,"time_to_live":86400,"apns_production":false}}, times:1
+Send POST https://api.jpush.cn/v3/push, body:{"platform":["android"],"audience":"all","notification":{"android":{"alert":"hi"}},"options":{"sendno":100000,"time_to_live":86400,"apns_production":false}}, times:1
