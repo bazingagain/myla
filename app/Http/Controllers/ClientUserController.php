@@ -246,20 +246,20 @@ class ClientUserController extends Controller
     public function sendPush(Request $request)
     {
         if($request->ajax()){
-            $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
+            $client = new JPush('b20d0b83a6f3c8dc393932c6', 'e521b9a8be050411fe1155b2');
 //            $result = $client->push()
 //                ->setPlatform('all')
 //                ->addAllAudience()
 //                ->setNotificationAlert('Hi, JPush')
 //                ->send();
             $result = $client->push()
-                    ->setPlatform('android')
+                    ->setPlatform('all')
                     ->addAllAudience()
                     ->addAndroidNotification('hi')
                     ->setOptions(100000, 86400, null, false)
                     ->send();
-                    error_log('>>>>push result<<<<');
-                    error_log(json_decode($result));
+            error_log('>>>>push result<<<<');
+            error_log( 'Result=' . json_encode($result));
             }
     }
 
@@ -324,7 +324,6 @@ class ClientUserController extends Controller
     public function setLocation(Request $request)
     {
         $jsonstr = $request->input('location');
-//        error_log($jsonstr);
         $array = json_decode($jsonstr, true);
         if (($array['clientName'] == 'tempUser') || is_null($array['clientName']))
             return;
