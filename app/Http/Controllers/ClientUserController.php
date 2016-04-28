@@ -11,11 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-//use JPush;
-
-ini_set("display_errors", "On");
-error_reporting(E_ALL | E_STRICT);
-require_once("/src/JPush/JPush.php");
+use JPush;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -260,13 +256,11 @@ class ClientUserController extends Controller
 //                ->send();
             $result = $client->push()
                     ->setPlatform('all')
-                    ->addAllAudience()
+                ->addAllAudience()
                     ->addAndroidNotification('hi')
                     ->setOptions(100000, 86400, null, false)
                     ->send();
-            error_log('>>>>push result<<<<');
-            error_log( 'Result=' . json_encode($result));
-//            }
+//        echo 'Result=' . json_encode($result).'<br/>';
     }
 
     /**
