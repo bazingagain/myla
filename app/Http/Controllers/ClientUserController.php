@@ -11,7 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use JPush;
+//use JPush;
+
+ini_set("display_errors", "On");
+error_reporting(E_ALL | E_STRICT);
+require_once("/src/JPush/JPush.php");
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -245,7 +249,9 @@ class ClientUserController extends Controller
 
     public function sendPush(Request $request)
     {
-        if($request->ajax()){
+        ini_set("display_errors", "On");
+        error_reporting(E_ALL | E_STRICT);
+//        if($request->ajax()){
             $client = new JPush('b20d0b83a6f3c8dc393932c6', 'e521b9a8be050411fe1155b2');
 //            $result = $client->push()
 //                ->setPlatform('all')
@@ -260,7 +266,7 @@ class ClientUserController extends Controller
                     ->send();
             error_log('>>>>push result<<<<');
             error_log( 'Result=' . json_encode($result));
-            }
+//            }
     }
 
     /**
