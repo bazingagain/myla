@@ -240,11 +240,6 @@ class ClientUserController extends Controller
         error_reporting(E_ALL | E_STRICT);
 //        if($request->ajax()){
             $client = new JPush('b20d0b83a6f3c8dc393932c6', 'e521b9a8be050411fe1155b2');
-//            $result = $client->push()
-//                ->setPlatform('all')
-//                ->addAllAudience()
-//                ->setNotificationAlert('Hi, JPush')
-//                ->send();
             $result = $client->push()
                     ->setPlatform('all')
                 ->addAllAudience()
@@ -336,6 +331,28 @@ class ClientUserController extends Controller
                 'test' => rand(0, 1000)
             ));
         }
+
+    }
+
+    public function shareLocation(Request $request)
+    {
+        $jsonstr = $request->input('requsetShareLoc');
+        $array = json_decode($jsonstr, true);
+        $clientName = $array['clientName'];
+        $temp = ClientUser::where('clientName', '=', $clientName)->get();
+        $user = $temp[0];
+        $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
+        $result = $client->push()
+            ->setPlatform('android')
+            ->addAlias($array['contactName'])
+            ->addAndroidNotification($array['clientName'] . '请求共享位置', null, 1, array('type' => 'requestShareLoc', "friend_name" => $user->clientName, 'friend_nickname' => $user->nick_name, 'pic_url' => $user->pic_url, 'friend_sex' => $user->sex, 'friend_address' => $user->address, 'friend_signature' => $user->signature))
+            ->setOptions(100000, 3600, null, false)
+            ->send();
+        error_log('服务器发送 shareLocation成功');
+        return response()->json(['shareLoc' => true, 'message' => '已发送位置共享请求']);
+    }
+    public function getContactLocation()
+    {
 
     }
 

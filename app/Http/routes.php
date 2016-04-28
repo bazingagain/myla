@@ -40,6 +40,12 @@ Route::post('/trackUser', 'ClientUserController@trackUser');
 Route::post('/userModifyPassword', 'ClientUserController@modifyPassword');
 Route::post('/userFeedback', 'ClientUserController@feedback');
 
+//共享位置
+Route::post('/userShareLocation', 'ClientUserController@shareLocation');
+Route::post('/getContactLocation', 'ClientUserController@getContactLocation');
+
+
+
 Route::post('/sendPush', 'ClientUserController@sendPush');
 
 Route::group(['prefix' => 'userProfile'], function () {
