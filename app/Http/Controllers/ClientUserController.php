@@ -221,22 +221,13 @@ class ClientUserController extends Controller
                 $requsetUser = $temp[0];
                 //TODO   找到要添加用户，发送JPUSH  推送请求  离线消息保留1天 开发环境
                 $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
-                    error_log('send jpush');
                 $result = $client->push()
-                    ->setPlatform('all')
-                    ->addAllAudience()
-                    ->setNotificationAlert('Hi, JPush')
+                    ->setPlatform('android')
+                    ->addAlias($array['friendName'])
+                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
+                    ->setOptions(100000, 86400, null, false)
                     ->send();
-
-
-
-                error_log('send ok');
-//                $result = $client->push()
-//                    ->setPlatform('android')
-//                    ->addAlias($array['friendName'])
-//                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
-//                    ->setOptions(100000, 86400, null, false)
-//                    ->send();
+                error_log('添加好友成功');
                 return response()->json(['add' => true, 'message' => '已发送请求']);
             }
 
