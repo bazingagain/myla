@@ -192,7 +192,7 @@ class ClientUserController extends Controller
         } else {
             $feedback = new Feedback();
             $feedback->clientName = $array['clientName'];
-//            $feedback->email = $array['email'];
+            $feedback->email = $array['email'];
             $feedback->content = $array['content'];
             $feedback->save();
             return response()->json(['saveFeedback' => true, 'message' => '反馈成功']);
@@ -351,10 +351,42 @@ class ClientUserController extends Controller
         error_log('服务器发送 shareLocation成功');
         return response()->json(['shareLoc' => true, 'message' => '已发送位置共享请求']);
     }
-    public function getContactLocation()
+    public function getContactLocation(Request $request)
     {
-
+        $jsonstr = $request->input('getContactLoc');
+        $array = json_decode($jsonstr, true);
+        $contactName = $array['getLocFriendName'];
+        $temp = ClientUser::where('clientName', '=', $contactName)->get();
+        if (count($temp) == 0) {  //  自己不存在
+            return response()->json(['getContactLoc' => false, 'message' => '用户不存在']);
+        } else {
+            return response()->json(array(
+                'getContactLoc' => true,
+                'message' => '返回位置',
+                'location_latitude' => Cache::has('location_latitude:' . $contactName) ? (Cache::get('location_latitude:' . $contactName)) : 0,
+                'location_lontitude' => Cache::has('location_lontitude:' . $contactName) ? (Cache::get('location_lontitude:' . $contactName)) : 0,
+            ));
+        }
     }
+
+    public function agreeShareLocation(Request $request)
+    {
+        $jsonstr = $request->input('agreeShareLoc');
+        $array = json_decode($jsonstr, true);
+        $clientName = $array['clientName'];
+        $temp = ClientUser::where('clientName', '=', $clientName)->get();
+        $agreeUser = $temp[0];
+        $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
+        $result = $client->push()
+            ->setPlatform('android')
+            ->addAlias($array['agreeShareUserName'])
+            ->addAndroidNotification($array['clientName'] . '同意共享位置', null, 1, array('type' => 'agreeShareLoc', "friend_name" => $agreeUser->clientName, 'friend_nickname' => $agreeUser->nick_name, 'pic_url' => $agreeUser->pic_url, 'friend_sex' => $agreeUser->sex, 'friend_address' => $agreeUser->address, 'friend_signature' => $agreeUser->signature))
+            ->setOptions(100000, 3600, null, false)
+            ->send();
+        error_log('服务器发送 agreeShareLocation成功');
+        return response()->json(['agreeShareLoc' => true, 'message' => '已发送同意位置共享请求']);
+    }
+
 
     public function find(Request $request)
     {

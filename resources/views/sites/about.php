@@ -41,6 +41,8 @@
         getLocation();
     }
 
+
+
     function getLocation() {
         $.ajax({
             type: 'get',

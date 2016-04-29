@@ -43,6 +43,7 @@ Route::post('/userFeedback', 'ClientUserController@feedback');
 //共享位置
 Route::post('/userShareLocation', 'ClientUserController@shareLocation');
 Route::post('/getContactLocation', 'ClientUserController@getContactLocation');
+Route::post('/agreeShareLocation', 'ClientUserController@agreeShareLocation');
 
 
 

@@ -43,7 +43,7 @@
                                             <table class="table">
                                                 <thead>
                                                 <tr>
-                                                    <td><div>用户：</div> </td>
+                                                    <td width="100px"><div>用户：</div> </td>
                                                     <td><div id="user_name"></div> </td>
                                                 </tr>
                                                 </thead>
