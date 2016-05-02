@@ -114,4 +114,19 @@
         });
     }
 
+    function handleFeedback(e)
+    {
+        $.ajax({
+            type: 'post',
+            url: 'handleFeedback',
+            data: {id: e.getAttribute("data-id")},
+            success: function (data) {
+                $("#table").html(data.msg);
+            },
+            error: function (xhr, type) {
+                $("#table").html(data.msg);
+            }
+        });
+    }
+
 </script>

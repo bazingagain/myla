@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Feedback;
 use Redis;
 use Cache;
+use Storage;
 use Illuminate\Support\Facades\DB;
 use App\ClientUser;
 use Illuminate\Http\Request;
@@ -49,9 +50,9 @@ class ClientUserController extends Controller
             ->addAlias('alias1')
             ->addTag(array('tag1', 'tag2'))
             ->setNotificationAlert('Hi, JPush')
-            ->addAndroidNotification('Hi, android notification', 'notification title', 1, array("key1"=>"value1", "key2"=>"value2"))
-            ->addIosNotification("Hi, iOS notification", 'iOS sound', JPush::DISABLE_BADGE, true, 'iOS category', array("key1"=>"value1", "key2"=>"value2"))
-            ->setMessage("msg content", 'msg title', 'type', array("key1"=>"value1", "key2"=>"value2"))
+            ->addAndroidNotification('Hi, android notification', 'notification title', 1, array("key1" => "value1", "key2" => "value2"))
+            ->addIosNotification("Hi, iOS notification", 'iOS sound', JPush::DISABLE_BADGE, true, 'iOS category', array("key1" => "value1", "key2" => "value2"))
+            ->setMessage("msg content", 'msg title', 'type', array("key1" => "value1", "key2" => "value2"))
             ->setOptions(100000, 3600, null, false)
             ->send();
     }
@@ -167,6 +168,49 @@ class ClientUserController extends Controller
         }
     }
 
+    public function setIcon(Request $request)
+    {
+        error_log('存储头像响应');
+        $jsonstr = $request->input('setClientPic');
+        $clientIcon = $request->file('file');
+        if($clientIcon->isValid()) {
+            $array = json_decode($jsonstr, true);
+//            $temp = ClientUser::where('clientName', $array['clientName'])->get();
+
+            //客户端上传的头像，前面加加上'USER_ （.... .PNG）'
+            if (!Storage::disk('local')->exists('userPic')) {
+                Storage::disk('local')->makeDirectory('userPic');
+            }
+            error_log('创建存放用户头像的文件名:' . $array['fileNameWithNoSuffix'] . ':EndWith>' . $array['userPicFilePathEnd']);
+            if ($array['userPicFilePathEnd'] == 'jpg') {
+                if(Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']).'.jpg')){
+                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']).'.jpg');
+                }
+                error_log('存储qian');
+                Storage::disk('local')->put('userPic/USER_' .md5($array['clientName']). '.jpg', file_get_contents($request->file('file')));
+                error_log('存储jpg');
+
+            } else if ($array['userPicFilePath'] == 'jpeg') {
+                if(Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']).'.jpeg')){
+                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']).'.jpeg');
+                }
+                Storage::disk('local')->put('userPic/USER_' . md5($array['clientName']) . '.jpeg', file_get_contents($request->file('file')));
+                error_log('存储jpeg');
+
+            } else if ($array['userPicFilePath'] == 'png') {
+                if(Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']).'.png')){
+                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']).'.png');
+                }
+                Storage::disk('local')->put('userPic/USER_' . md5($array['clientName']) . '.png', file_get_contents($request->file('file')));
+                error_log('存储png');
+            }
+            error_log('存储头像成功');
+            return response()->json(['sendUserPicResult' => true, 'message' => '更改头像成功']);
+        }else{
+            return response()->json(['sendUserPicResult' => false, 'message' => '头像图片无效']);
+        }
+    }
+
     public function setAddress(Request $request)
     {
         $jsonstr = $request->input('userAddress');
@@ -224,7 +268,7 @@ class ClientUserController extends Controller
                 $result = $client->push()
                     ->setPlatform('android')
                     ->addAlias($array['friendName'])
-                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add',"friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
+                    ->addAndroidNotification($array['clientName'] . '请求添加您为好友', null, 1, array('type' => 'add', "friend_name" => $array['clientName'], 'friend_nickname' => $requsetUser['nick_name'], 'pic_url' => $requsetUser['pic_url'], 'friend_sex' => $requsetUser['sex'], 'friend_address' => $requsetUser['address'], 'friend_signature' => $requsetUser['signature']))
                     ->setOptions(100000, 86400, null, false)
                     ->send();
                 error_log('添加好友成功');
@@ -234,25 +278,27 @@ class ClientUserController extends Controller
         }
     }
 
+    //Test 用
     public function sendPush(Request $request)
     {
         ini_set("display_errors", "On");
         error_reporting(E_ALL | E_STRICT);
 //        if($request->ajax()){
-            $client = new JPush('b20d0b83a6f3c8dc393932c6', 'e521b9a8be050411fe1155b2');
-            $result = $client->push()
-                    ->setPlatform('all')
-                ->addAllAudience()
-                    ->addAndroidNotification('hi')
-                    ->setOptions(100000, 86400, null, false)
-                    ->send();
+        $client = new JPush('b20d0b83a6f3c8dc393932c6', 'e521b9a8be050411fe1155b2');
+        $result = $client->push()
+            ->setPlatform('all')
+            ->addAllAudience()
+            ->addAndroidNotification('hi')
+            ->setOptions(100000, 86400, null, false)
+            ->send();
 //        echo 'Result=' . json_encode($result).'<br/>';
     }
 
     /**
      * 同意 添加好友请求
      */
-    public function agree(Request $request){
+    public function agree(Request $request)
+    {
         $jsonstr = $request->input('userAgree');
         $array = json_decode($jsonstr, true);
 
@@ -263,15 +309,15 @@ class ClientUserController extends Controller
             $agreeUser = $temp[0];
             DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['clientName'], $array['requsetUserName']]);
             DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['requsetUserName'], $array['clientName']]);
-            error_log('好友关系'.$array['clientName'].':'.$array['requsetUserName'].'插入成功');
+            error_log('好友关系' . $array['clientName'] . ':' . $array['requsetUserName'] . '插入成功');
             $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
             $result = $client->push()
                 ->setPlatform('android')
                 ->addAlias($array['requsetUserName'])
-                ->addAndroidNotification('添加好友'.$array['clientName'].'成功', null, 1, array('type'=>'agree', "friend_name" => $agreeUser->clientName, 'friend_nickname' => $agreeUser->nick_name, 'pic_url' => $agreeUser->pic_url, 'friend_sex' => $agreeUser->sex, 'friend_address' => $agreeUser->address, 'friend_signature' => $agreeUser->signature))
+                ->addAndroidNotification('添加好友' . $array['clientName'] . '成功', null, 1, array('type' => 'agree', "friend_name" => $agreeUser->clientName, 'friend_nickname' => $agreeUser->nick_name, 'pic_url' => $agreeUser->pic_url, 'friend_sex' => $agreeUser->sex, 'friend_address' => $agreeUser->address, 'friend_signature' => $agreeUser->signature))
                 ->setOptions(100000, 3600, null, false)
                 ->send();
-            return response()->json(['saveAgree'=>true, 'message' => '同意好友添加请求']);
+            return response()->json(['saveAgree' => true, 'message' => '同意好友添加请求']);
         }
 
     }
@@ -351,6 +397,7 @@ class ClientUserController extends Controller
         error_log('服务器发送 shareLocation成功');
         return response()->json(['shareLoc' => true, 'message' => '已发送位置共享请求']);
     }
+
     public function getContactLocation(Request $request)
     {
         $jsonstr = $request->input('getContactLoc');
@@ -463,8 +510,10 @@ class ClientUserController extends Controller
             }
         }
     }
-    public function feedbackAll(Request $request){
-        if($request->ajax()){
+
+    public function feedbackAll(Request $request)
+    {
+        if ($request->ajax()) {
 //            temps是一个集合
             $temps = Feedback::all();
             $ttt = count($temps);
@@ -482,6 +531,7 @@ class ClientUserController extends Controller
                                 <td>邮箱</td>
                                 <td>反馈摘要</td>
                                 <td>反馈详情</td>
+                                <td></td>
                             </tr>
                         </thead><tbody align=\"center\">";
                 foreach ($temps as $temp) {
@@ -490,7 +540,8 @@ class ClientUserController extends Controller
                     $email = $temp->email;
                     $feedbackDigest = self::cubstr($temp->content, 0, 8);
                     $check = "<a href='#feedback_info' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getFeedbackDetail(this)'>查看</a>";
-                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $check . "</td></tr>";
+                    $hand = "<a href='#' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='handleFeedback(this)'>处理</a>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $check . "</td><td>".$hand."</td></tr>";
                 }
                 $tabstr .= "</tbody></table>";
                 return response()->json(array(
@@ -508,19 +559,20 @@ class ClientUserController extends Controller
      * @param $length
      * @return string
      */
-    function cubstr($string, $beginIndex, $length){
-        if(strlen($string) < $length){
+    function cubstr($string, $beginIndex, $length)
+    {
+        if (strlen($string) < $length) {
             return substr($string, $beginIndex);
         }
 
         $char = ord($string[$beginIndex + $length - 1]);
-        if($char >= 224 && $char <= 239){
+        if ($char >= 224 && $char <= 239) {
             $str = substr($string, $beginIndex, $length - 1);
             return $str;
         }
 
         $char = ord($string[$beginIndex + $length - 2]);
-        if($char >= 224 && $char <= 239){
+        if ($char >= 224 && $char <= 239) {
             $str = substr($string, $beginIndex, $length - 2);
             return $str;
         }
@@ -528,7 +580,8 @@ class ClientUserController extends Controller
         return substr($string, $beginIndex, $length);
     }
 
-    public function feedbackDetail(Request $request){
+    public function feedbackDetail(Request $request)
+    {
         if ($request->ajax()) {
             $idStr = $request->input('id');
 //            temps是一个集合
@@ -543,7 +596,7 @@ class ClientUserController extends Controller
                     $feedback_content = $temp->content;
                     $created_at = $temp->created_at;
                 }
-               error_log($feedback_content);
+                error_log($feedback_content);
                 return response()->json(array(
                     'status' => 1,
                     'msg' => '成功',
@@ -612,7 +665,6 @@ class ClientUserController extends Controller
             }
         }
     }
-
 
 
 }

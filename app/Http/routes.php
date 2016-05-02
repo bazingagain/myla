@@ -28,6 +28,8 @@ Route::post('/userDetail', 'ClientUserController@detail');
 Route::get('/feedbackAll', 'ClientUserController@feedbackAll');
 
 Route::post('/feedbackDetail', 'ClientUserController@feedbackDetail');
+Route::post('/handleFeedback', 'FeedbackController@handleFeedback');
+
 
 Route::get('/userTest', 'ClientUserController@test');
 Route::post('/userSetLocation', 'ClientUserController@setLocation');
@@ -52,7 +54,7 @@ Route::post('/sendPush', 'ClientUserController@sendPush');
 Route::group(['prefix' => 'userProfile'], function () {
     Route::post('setSignature','ClientUserController@setSignature');
     Route::post('setNickname','ClientUserController@setNickname');
-//    Route::post('setIcon','ClientUserController@setIcon');
+    Route::post('setIcon','ClientUserController@setIcon');
     Route::post('setSex','ClientUserController@setSex');
     Route::post('setAddress','ClientUserController@setAddress');
 });
