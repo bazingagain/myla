@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="992fa16b-4b8b-4f88-b706-99b39f14642c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/ClientUser.php" afterPath="$PROJECT_DIR$/app/ClientUser.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/jpush.log" afterPath="$PROJECT_DIR$/public/jpush.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sites/feedback.blade.php" afterPath="$PROJECT_DIR$/resources/views/sites/feedback.blade.php" />
     </list>
     <ignored path="myla.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,44 +37,43 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="20.964285">
-              <caret line="30" column="68" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+            <state vertical-scroll-proportion="-8.142858">
+              <caret line="24" column="81" selection-start-line="24" selection-start-column="81" selection-end-line="24" selection-end-column="81" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientUserController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ClientUserController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.107143">
-              <caret line="545" column="46" selection-start-line="525" selection-start-column="16" selection-end-line="545" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.4593698">
+              <caret line="330" column="48" selection-start-line="330" selection-start-column="48" selection-end-line="330" selection-end-column="48" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
-                <marker date="1462199778333" expanded="true" signature="12244:12309" placeholder="insert into friend_relations... " />
-                <marker date="1462199778333" expanded="true" signature="12388:12453" placeholder="insert into friend_relations... " />
-                <marker date="1462199778333" expanded="true" signature="18785:19937" placeholder="..." />
-                <marker date="1462199778333" expanded="true" signature="18840:19209" placeholder="..." />
-                <marker date="1462199778333" expanded="true" signature="18873:19176" placeholder="..." />
-                <marker date="1462199778333" expanded="true" signature="21809:22178" placeholder="..." />
-                <marker date="1462199778333" expanded="true" signature="21842:22145" placeholder="..." />
+                <marker date="1462287853667" expanded="true" signature="12244:12309" placeholder="insert into friend_relations... " />
+                <marker date="1462287853667" expanded="true" signature="12388:12453" placeholder="insert into friend_relations... " />
+                <marker date="1462287853667" expanded="true" signature="19517:20669" placeholder="..." />
+                <marker date="1462287853667" expanded="true" signature="19572:19941" placeholder="..." />
+                <marker date="1462287853667" expanded="true" signature="19605:19908" placeholder="..." />
+                <marker date="1462287853667" expanded="true" signature="22541:22910" placeholder="..." />
+                <marker date="1462287853667" expanded="true" signature="22574:22877" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeedbackController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FeedbackController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FeedbackController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5356551">
-              <caret line="38" column="48" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
+            <state vertical-scroll-proportion="-22.178572">
+              <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
               <folding>
                 <element signature="e#40#68#0#PHP" expanded="true" />
                 <marker date="1462201573092" expanded="true" signature="988:1441" placeholder="..." />
                 <marker date="1462201573092" expanded="true" signature="1131:1409" placeholder="..." />
                 <marker date="1462201573092" expanded="true" signature="1186:1373" placeholder="..." />
                 <marker date="1462201573092" expanded="true" signature="1453:1465" placeholder="..." />
-                <marker date="1462201573092" expanded="true" signature="1780:1956" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -85,7 +82,7 @@
       <file leaf-file-name="feedback.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/sites/feedback.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="46.32143">
+            <state vertical-scroll-proportion="0.0">
               <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
               <folding />
             </state>
@@ -183,10 +180,10 @@
         <option value="$PROJECT_DIR$/storage/logs/laravel.log" />
         <option value="$PROJECT_DIR$/resources/views/sites/about.php" />
         <option value="$PROJECT_DIR$/app/ClientUser.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" />
         <option value="$PROJECT_DIR$/resources/views/sites/feedback.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/FeedbackController.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" />
       </list>
     </option>
   </component>
@@ -399,8 +396,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -511,7 +508,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2473525" sideWeight="0.51363635" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22692889" sideWeight="0.48636365" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22995462" sideWeight="0.48636365" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287879" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3530303" sideWeight="0.5030257" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -566,7 +563,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.03150912">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -770,13 +766,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel.log">
-      <provider editor-type-id="LargeFileEditor">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
+      </provider>
+      <provider editor-type-id="LargeFileEditor">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/sites/about.php">
@@ -883,60 +879,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/storage/app/userPic/USER_f70252f9733057056abf3054731ce678.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/storage/app/userPic/USER_23b5d03376966de65f1b292306694ea5.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.107143">
-          <caret line="545" column="46" selection-start-line="525" selection-start-column="16" selection-end-line="545" selection-end-column="46" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-            <marker date="1462199778333" expanded="true" signature="12244:12309" placeholder="insert into friend_relations... " />
-            <marker date="1462199778333" expanded="true" signature="12388:12453" placeholder="insert into friend_relations... " />
-            <marker date="1462199778333" expanded="true" signature="18785:19937" placeholder="..." />
-            <marker date="1462199778333" expanded="true" signature="18840:19209" placeholder="..." />
-            <marker date="1462199778333" expanded="true" signature="18873:19176" placeholder="..." />
-            <marker date="1462199778333" expanded="true" signature="21809:22178" placeholder="..." />
-            <marker date="1462199778333" expanded="true" signature="21842:22145" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/sites/feedback.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="46.32143">
+        <state vertical-scroll-proportion="0.0">
           <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="20.964285">
-          <caret line="30" column="68" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FeedbackController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5356551">
-          <caret line="38" column="48" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
+        <state vertical-scroll-proportion="-22.178572">
+          <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
           <folding>
             <element signature="e#40#68#0#PHP" expanded="true" />
             <marker date="1462201573092" expanded="true" signature="988:1441" placeholder="..." />
             <marker date="1462201573092" expanded="true" signature="1131:1409" placeholder="..." />
             <marker date="1462201573092" expanded="true" signature="1186:1373" placeholder="..." />
             <marker date="1462201573092" expanded="true" signature="1453:1465" placeholder="..." />
-            <marker date="1462201573092" expanded="true" signature="1780:1956" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.142858">
+          <caret line="24" column="81" selection-start-line="24" selection-start-column="81" selection-end-line="24" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4593698">
+          <caret line="330" column="48" selection-start-line="330" selection-start-column="48" selection-end-line="330" selection-end-column="48" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+            <marker date="1462287853667" expanded="true" signature="12244:12309" placeholder="insert into friend_relations... " />
+            <marker date="1462287853667" expanded="true" signature="12388:12453" placeholder="insert into friend_relations... " />
+            <marker date="1462287853667" expanded="true" signature="19517:20669" placeholder="..." />
+            <marker date="1462287853667" expanded="true" signature="19572:19941" placeholder="..." />
+            <marker date="1462287853667" expanded="true" signature="19605:19908" placeholder="..." />
+            <marker date="1462287853667" expanded="true" signature="22541:22910" placeholder="..." />
+            <marker date="1462287853667" expanded="true" signature="22574:22877" placeholder="..." />
           </folding>
         </state>
       </provider>

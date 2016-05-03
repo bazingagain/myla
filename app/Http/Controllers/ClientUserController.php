@@ -322,6 +322,26 @@ class ClientUserController extends Controller
 
     }
 
+    public function userSyncRelationTable(Request $request)
+    {
+        error_log('查询关系表');
+        $jsonstr = $request->input('sync');
+        $array = json_decode($jsonstr, true);
+        error_log($array['clientName']);
+        $friends = DB::table('friend_relations')
+            ->join('client_users', 'friend_relations.friendName','=', 'client_users.clientName')
+            ->select('friend_relations.*', 'client_users.*')
+            ->where('friend_relations.userName', '=', $array['clientName'])
+            ->get();
+        error_log(count($friends));
+        foreach($friends as $friend){
+//            error_log($friend->friendName);
+         }
+        return response()->json(
+            $friends
+        );
+    }
+
     private function registerID($alias)
     {
         $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET, null, null);
