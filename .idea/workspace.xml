@@ -4,7 +4,6 @@
     <list default="true" id="992fa16b-4b8b-4f88-b706-99b39f14642c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/jpush.log" afterPath="$PROJECT_DIR$/public/jpush.log" />
     </list>
     <ignored path="myla.iws" />
@@ -37,8 +36,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.142858">
-              <caret line="24" column="81" selection-start-line="24" selection-start-column="81" selection-end-line="24" selection-end-column="81" />
+            <state vertical-scroll-proportion="-0.6785714">
+              <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -47,17 +46,17 @@
       <file leaf-file-name="ClientUserController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4593698">
-              <caret line="330" column="48" selection-start-line="330" selection-start-column="48" selection-end-line="330" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.5555556">
+              <caret line="425" column="38" selection-start-line="425" selection-start-column="38" selection-end-line="425" selection-end-column="38" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
-                <marker date="1462287853667" expanded="true" signature="12244:12309" placeholder="insert into friend_relations... " />
-                <marker date="1462287853667" expanded="true" signature="12388:12453" placeholder="insert into friend_relations... " />
-                <marker date="1462287853667" expanded="true" signature="19517:20669" placeholder="..." />
-                <marker date="1462287853667" expanded="true" signature="19572:19941" placeholder="..." />
-                <marker date="1462287853667" expanded="true" signature="19605:19908" placeholder="..." />
-                <marker date="1462287853667" expanded="true" signature="22541:22910" placeholder="..." />
-                <marker date="1462287853667" expanded="true" signature="22574:22877" placeholder="..." />
+                <marker date="1462359933425" expanded="true" signature="12906:12971" placeholder="insert into friend_relations... " />
+                <marker date="1462359933425" expanded="true" signature="13050:13115" placeholder="insert into friend_relations... " />
+                <marker date="1462359933425" expanded="true" signature="19285:20437" placeholder="..." />
+                <marker date="1462359933425" expanded="true" signature="19340:19709" placeholder="..." />
+                <marker date="1462359933425" expanded="true" signature="19373:19676" placeholder="..." />
+                <marker date="1462359933425" expanded="true" signature="22309:22678" placeholder="..." />
+                <marker date="1462359933425" expanded="true" signature="22342:22645" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -66,7 +65,7 @@
       <file leaf-file-name="FeedbackController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FeedbackController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-22.178572">
+            <state vertical-scroll-proportion="0.0">
               <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
               <folding>
                 <element signature="e#40#68#0#PHP" expanded="true" />
@@ -552,6 +551,22 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/ClientUser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/standard_5.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1092" column="9" selection-start-line="1092" selection-start-column="9" selection-end-line="1092" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22056384">
@@ -889,7 +904,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FeedbackController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-22.178572">
+        <state vertical-scroll-proportion="0.0">
           <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
           <folding>
             <element signature="e#40#68#0#PHP" expanded="true" />
@@ -903,25 +918,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.142858">
-          <caret line="24" column="81" selection-start-line="24" selection-start-column="81" selection-end-line="24" selection-end-column="81" />
+        <state vertical-scroll-proportion="-0.6785714">
+          <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4593698">
-          <caret line="330" column="48" selection-start-line="330" selection-start-column="48" selection-end-line="330" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.5555556">
+          <caret line="425" column="38" selection-start-line="425" selection-start-column="38" selection-end-line="425" selection-end-column="38" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
-            <marker date="1462287853667" expanded="true" signature="12244:12309" placeholder="insert into friend_relations... " />
-            <marker date="1462287853667" expanded="true" signature="12388:12453" placeholder="insert into friend_relations... " />
-            <marker date="1462287853667" expanded="true" signature="19517:20669" placeholder="..." />
-            <marker date="1462287853667" expanded="true" signature="19572:19941" placeholder="..." />
-            <marker date="1462287853667" expanded="true" signature="19605:19908" placeholder="..." />
-            <marker date="1462287853667" expanded="true" signature="22541:22910" placeholder="..." />
-            <marker date="1462287853667" expanded="true" signature="22574:22877" placeholder="..." />
+            <marker date="1462359933425" expanded="true" signature="12906:12971" placeholder="insert into friend_relations... " />
+            <marker date="1462359933425" expanded="true" signature="13050:13115" placeholder="insert into friend_relations... " />
+            <marker date="1462359933425" expanded="true" signature="19285:20437" placeholder="..." />
+            <marker date="1462359933425" expanded="true" signature="19340:19709" placeholder="..." />
+            <marker date="1462359933425" expanded="true" signature="19373:19676" placeholder="..." />
+            <marker date="1462359933425" expanded="true" signature="22309:22678" placeholder="..." />
+            <marker date="1462359933425" expanded="true" signature="22342:22645" placeholder="..." />
           </folding>
         </state>
       </provider>

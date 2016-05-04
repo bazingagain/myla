@@ -173,7 +173,7 @@ class ClientUserController extends Controller
         error_log('存储头像响应');
         $jsonstr = $request->input('setClientPic');
         $clientIcon = $request->file('file');
-        if($clientIcon->isValid()) {
+        if ($clientIcon->isValid()) {
             $array = json_decode($jsonstr, true);
 //            $temp = ClientUser::where('clientName', $array['clientName'])->get();
 
@@ -183,30 +183,30 @@ class ClientUserController extends Controller
             }
             error_log('创建存放用户头像的文件名:' . $array['fileNameWithNoSuffix'] . ':EndWith>' . $array['userPicFilePathEnd']);
             if ($array['userPicFilePathEnd'] == 'jpg') {
-                if(Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']).'.jpg')){
-                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']).'.jpg');
+                if (Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']) . '.jpg')) {
+                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']) . '.jpg');
                 }
                 error_log('存储qian');
-                Storage::disk('local')->put('userPic/USER_' .md5($array['clientName']). '.jpg', file_get_contents($request->file('file')));
+                Storage::disk('local')->put('userPic/USER_' . md5($array['clientName']) . '.jpg', file_get_contents($request->file('file')));
                 error_log('存储jpg');
 
             } else if ($array['userPicFilePath'] == 'jpeg') {
-                if(Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']).'.jpeg')){
-                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']).'.jpeg');
+                if (Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']) . '.jpeg')) {
+                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']) . '.jpeg');
                 }
                 Storage::disk('local')->put('userPic/USER_' . md5($array['clientName']) . '.jpeg', file_get_contents($request->file('file')));
                 error_log('存储jpeg');
 
             } else if ($array['userPicFilePath'] == 'png') {
-                if(Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']).'.png')){
-                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']).'.png');
+                if (Storage::disk('local')->exists('userPic/USER_' . md5($array['clientName']) . '.png')) {
+                    Storage::disk('local')->delete('userPic/USER_' . md5($array['clientName']) . '.png');
                 }
                 Storage::disk('local')->put('userPic/USER_' . md5($array['clientName']) . '.png', file_get_contents($request->file('file')));
                 error_log('存储png');
             }
             error_log('存储头像成功');
             return response()->json(['sendUserPicResult' => true, 'message' => '更改头像成功']);
-        }else{
+        } else {
             return response()->json(['sendUserPicResult' => false, 'message' => '头像图片无效']);
         }
     }
@@ -307,9 +307,6 @@ class ClientUserController extends Controller
             return response()->json(['saveAgree' => false, 'message' => '用户不存在']);
         } else {
             $agreeUser = $temp[0];
-            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['clientName'], $array['requsetUserName']]);
-            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['requsetUserName'], $array['clientName']]);
-            error_log('好友关系' . $array['clientName'] . ':' . $array['requsetUserName'] . '插入成功');
             $client = new \JPush(self::$APP_KEY, self::$MASTER_SECRET);
             $result = $client->push()
                 ->setPlatform('android')
@@ -317,6 +314,9 @@ class ClientUserController extends Controller
                 ->addAndroidNotification('添加好友' . $array['clientName'] . '成功', null, 1, array('type' => 'agree', "friend_name" => $agreeUser->clientName, 'friend_nickname' => $agreeUser->nick_name, 'pic_url' => $agreeUser->pic_url, 'friend_sex' => $agreeUser->sex, 'friend_address' => $agreeUser->address, 'friend_signature' => $agreeUser->signature))
                 ->setOptions(100000, 3600, null, false)
                 ->send();
+            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['clientName'], $array['requsetUserName']]);
+            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['requsetUserName'], $array['clientName']]);
+            error_log('好友关系' . $array['clientName'] . ':' . $array['requsetUserName'] . '插入成功');
             return response()->json(['saveAgree' => true, 'message' => '同意好友添加请求']);
         }
 
@@ -329,14 +329,14 @@ class ClientUserController extends Controller
         $array = json_decode($jsonstr, true);
         error_log($array['clientName']);
         $friends = DB::table('friend_relations')
-            ->join('client_users', 'friend_relations.friendName','=', 'client_users.clientName')
+            ->join('client_users', 'friend_relations.friendName', '=', 'client_users.clientName')
             ->select('friend_relations.*', 'client_users.*')
             ->where('friend_relations.userName', '=', $array['clientName'])
             ->get();
         error_log(count($friends));
-        foreach($friends as $friend){
+        foreach ($friends as $friend) {
 //            error_log($friend->friendName);
-         }
+        }
         return response()->json(
             $friends
         );
@@ -423,17 +423,12 @@ class ClientUserController extends Controller
         $jsonstr = $request->input('getContactLoc');
         $array = json_decode($jsonstr, true);
         $contactName = $array['getLocFriendName'];
-        $temp = ClientUser::where('clientName', '=', $contactName)->get();
-        if (count($temp) == 0) {  //  自己不存在
-            return response()->json(['getContactLoc' => false, 'message' => '用户不存在']);
-        } else {
-            return response()->json(array(
-                'getContactLoc' => true,
-                'message' => '返回位置',
-                'location_latitude' => Cache::has('location_latitude:' . $contactName) ? (Cache::get('location_latitude:' . $contactName)) : 0,
-                'location_lontitude' => Cache::has('location_lontitude:' . $contactName) ? (Cache::get('location_lontitude:' . $contactName)) : 0,
-            ));
-        }
+        return response()->json(array(
+            'getContactLoc' => true,
+            'message' => '返回位置',
+            'location_latitude' => Cache::has('location_latitude:' . $contactName) ? (Cache::get('location_latitude:' . $contactName)) : 0,
+            'location_lontitude' => Cache::has('location_lontitude:' . $contactName) ? (Cache::get('location_lontitude:' . $contactName)) : 0,
+        ));
     }
 
     public function agreeShareLocation(Request $request)
@@ -561,7 +556,7 @@ class ClientUserController extends Controller
                     $feedbackDigest = self::cubstr($temp->content, 0, 8);
                     $check = "<a href='#feedback_info' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getFeedbackDetail(this)'>查看</a>";
                     $hand = "<a href='#' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='handleFeedback(this)'>处理</a>";
-                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $check . "</td><td>".$hand."</td></tr>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $check . "</td><td>" . $hand . "</td></tr>";
                 }
                 $tabstr .= "</tbody></table>";
                 return response()->json(array(
