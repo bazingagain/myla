@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ClientUser;
 use App\Feedback;
+use Mail;
+use DB;
 
 use App\Http\Requests;
 
@@ -33,14 +35,13 @@ class FeedbackController extends Controller
                 $tabstr .= '<p><form role="form">
                               <div class="form-group">
                                 <label for="name">反馈处理回复</label>
-                                <textarea class="form-control" rows="10"></textarea>
+                                <textarea id = "lejianResponse" class="form-control" rows="10"></textarea>
                               </div>
                             </form></p>';
-                $check = "<p style='float: right'><a href='#' data-id =$idStr data-name =$name data-toggle=\"modal\" class=\"btn btn-primary btn-large\" >取消</a>";
-                $hand = "<a href='#' data-id =$idStr data-name =$name data-toggle=\"modal\" class=\"btn btn-success\" >发送</a></p>";
+                $check = "<p style='float: right'><a href='#' data-id =$idStr data-name =$name data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='showAllFeedback()'>取消</a>";
+                $hand = "<a href='#' data-id =$idStr data-mail=$email data-name =$name class=\"btn btn-success\" onclick='sendFeedbackMail(this)'>发送</a></p>";
                 $tabstr .= $check;
                 $tabstr .= $hand;
-
 
                 return response()->json(array(
                     'status' => 1,
@@ -49,7 +50,38 @@ class FeedbackController extends Controller
             }
 
         }
+    }
 
+    public function sendFeedbackResponse(Request $request)
+    {
+        if($request->ajax()){
 
+            $data = ['email'=>$request->input('mail'), 'name'=>$request->input('name')];
+//            Mail::send(['text' => 'welocme'], $data, function($message) use($data)
+//            {
+//                $message->to($data['email'], $data['name'])->subject('乐见关于您反馈问题的回复');
+//            });
+            $bodyText = $request->input('lejianResponse');
+            Mail::raw($bodyText,function ($message) use ($data){
+                $message->to($data['email'], $data['name'])->subject('乐见关于您反馈问题的回复');
+            });
+            DB::table('feedbacks')->where('id', $request->input('id'))->update(['status' => '已处理']);
+            return response()->json([
+               'status' => 1,
+                'msg' => 'OK'
+            ]);
+        }
+    }
+
+    public function deleteFeedback(Request $request)
+    {
+        if($request->ajax()){
+
+            DB::table('feedbacks')->where('id', $request->input('id'))->delete();
+            return response()->json([
+                'status' => 1,
+                'msg' => 'OK'
+            ]);
+        }
     }
 }

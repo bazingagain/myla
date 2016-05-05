@@ -238,6 +238,7 @@ class ClientUserController extends Controller
             $feedback->clientName = $array['clientName'];
             $feedback->email = $array['email'];
             $feedback->content = $array['content'];
+            $feedback->status = '未处理';
             $feedback->save();
             return response()->json(['saveFeedback' => true, 'message' => '反馈成功']);
         }
@@ -545,18 +546,20 @@ class ClientUserController extends Controller
                                 <td>客户名</td>
                                 <td>邮箱</td>
                                 <td>反馈摘要</td>
-                                <td>反馈详情</td>
-                                <td></td>
+                                <td>处理状态</td>
+                                <td>操作</td>
                             </tr>
                         </thead><tbody align=\"center\">";
                 foreach ($temps as $temp) {
                     $id = $temp->id;
                     $clientName = $temp->clientName;
                     $email = $temp->email;
-                    $feedbackDigest = self::cubstr($temp->content, 0, 8);
+                    $status = $temp->status;
+                    $feedbackDigest = self::cubstr($temp->content, 0, 30);
                     $check = "<a href='#feedback_info' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getFeedbackDetail(this)'>查看</a>";
-                    $hand = "<a href='#' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='handleFeedback(this)'>处理</a>";
-                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $check . "</td><td>" . $hand . "</td></tr>";
+                    $hand = "<a href='#' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn  btn-success btn-large\" onclick='handleFeedback(this)'>处理</a>";
+                    $delete = "<a href='#' data-id =$temp->id data-toggle=\"modal\" class=\"btn btn-danger btn-large\" onclick='deleteFeedback(this)'>删除</a>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>".$status."</td><td>" . $check  . $hand . $delete."</td></tr>";
                 }
                 $tabstr .= "</tbody></table>";
                 return response()->json(array(

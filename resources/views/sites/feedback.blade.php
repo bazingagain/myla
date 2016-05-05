@@ -129,4 +129,42 @@
         });
     }
 
+    function sendFeedbackMail(e)
+    {
+        $.ajax({
+            type: 'post',
+            url: 'sendFeedbackResponse',
+            data: {
+                    lejianResponse: $("#lejianResponse").val(),
+                    id: e.getAttribute("data-id"),
+                    mail: e.getAttribute("data-mail"),
+                    name: e.getAttribute("data-name")
+                   },
+            success: function (data) {
+                $("#table").html('发送成功');
+            },
+            error: function (xhr, type) {
+                $("#table").html('发送失败');
+            }
+        });
+    }
+
+    function deleteFeedback(e)
+    {
+        $.ajax({
+            type: 'post',
+            url: 'deleteFeedback',
+            data: {
+                id: e.getAttribute("data-id")
+            },
+            success: function (data) {
+//                $("#table").html('删除成功成功');
+                showAllFeedback();
+            },
+            error: function (xhr, type) {
+                $("#table").html('删除失败');
+            }
+        });
+    }
+
 </script>

@@ -32,6 +32,9 @@ Route::get('/feedbackAll', 'ClientUserController@feedbackAll');
 
 Route::post('/feedbackDetail', 'ClientUserController@feedbackDetail');
 Route::post('/handleFeedback', 'FeedbackController@handleFeedback');
+Route::post('/sendFeedbackResponse', 'FeedbackController@sendFeedbackResponse');
+Route::post('/deleteFeedback', 'FeedbackController@deleteFeedback');
+
 
 
 Route::get('/userTest', 'ClientUserController@test');
