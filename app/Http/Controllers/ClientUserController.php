@@ -471,8 +471,8 @@ class ClientUserController extends Controller
                                 <td>客户名</td>
                                 <td>昵称</td>
                                 <td>性别</td>
-                                <td>地址</td>
-                                <td>详细信息</td>
+                                <td>地区</td>
+                                <td>操作</td>
                             </tr>
                         </thead><tbody align=\"center\">";
                 foreach ($temps as $temp) {
@@ -482,7 +482,9 @@ class ClientUserController extends Controller
                     $sex = $temp->sex;
                     $address = $temp->address;
                     $check = "<a href='#user_info' data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getUserDetail(this)'>查看</a>";
-                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $nickName . "</td><td>" . $sex . "</td><td>" . $address . "</td><td>" . $check . "</td></tr>";
+                    $modify = "<a href='#' data-id=$id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-success btn-large\" onclick='modifyUserInfo(this)'>修改</a>";
+                    $delete = "<a href='#' data-id=$id  class=\"btn btn-danger btn-large\" onclick='deleteUserInfo(this)'>删除</a>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $nickName . "</td><td>" . $sex . "</td><td>" . $address . "</td><td>" . $check . $modify . $delete . "</td></tr>";
                 }
                 $tabstr .= "</tbody></table>";
                 return response()->json(array(
@@ -493,6 +495,125 @@ class ClientUserController extends Controller
         }
 
     }
+
+    public function createUser(Request $request)
+    {
+        if ($request->ajax()) {
+            $creatStr = "<form class=\"form-horizontal\" role=\"form\">
+               <div id='inputNameDiv' class=\"form-group\">
+                <label for=\"name\">用户名</label>
+                <input type=\"text\" class=\"form-control\" id='inputName' placeholder=\"请输入用户名\" onfocus='inputNameFocus()'>
+                <span class=\"help-block\" id='hp_name'></span>
+              </div>
+              <div id='inputPasswordDiv' class=\"form-group\">
+                 <label for=\"name\">密码</label>
+                <input type=\"password\" class=\"form-control\" id='inputPassword' placeholder=\"请输入密码\" onfocus='inputPasswordFocus()'>
+                <span class=\"help-block\" id='hp_passeword'></span>
+              </div>
+                  <div class=\"form-group\">
+                  <table>
+                  <tbody>
+                    <tr><td> <label  for=\"name\">头像</label></td>
+                    <td style='padding-left: 100px'><img  src='USER_202cb962ac59075b964b07152d234b70.jpg'  width='100px' height='100px' class='img-circle'></td>
+                    <td style='padding-left: 50px'><input type=\"file\"  id=\"inputfile\"></td></tr>
+                    </tbody>
+                </table>
+                  </div>
+              <div class=\"form-group\">
+                 <label for=\"name\">昵称</label>
+                <input type=\"text\" class=\"form-control\" id='inputNickname' placeholder=\"请输入昵称\">
+              </div>
+              <div class=\"form-group\">
+                 <label for=\"name\">性别</label>
+                <label class=\"checkbox-inline\">
+                      <input type=\"radio\" name=\"optionsRadiosinline\" id=\"inputSexMan\"
+                         value=\"男\" checked>男
+                   </label>
+                   <label class=\"checkbox-inline\">
+                      <input type=\"radio\" name=\"optionsRadiosinline\" id=\"inputSexWoman\"
+                         value=\"女\">女
+                  </label>
+              </div>
+              <div class=\"form-group\">
+                 <label for=\"name\">地区</label>
+                          <select id = 'inputAddress' class=\"form-control\">
+                             <option>安徽</option>
+                             <option>澳门</option>
+                             <option>北京</option>
+                             <option>福建</option>
+                             <option>广东</option>
+                             <option>甘肃</option>
+                             <option>广西</option>
+                             <option>贵州</option>
+                             <option>河北</option>
+                             <option>湖北</option>
+                             <option>黑龙江</option>
+                             <option>海南</option>
+                             <option>河南</option>
+                             <option>湖南</option>
+                             <option>吉林</option>
+                             <option>江苏</option>
+                             <option>江西</option>
+                             <option>辽宁</option>
+                             <option>青海</option>
+                             <option>四川</option>
+                             <option>山东</option>
+                             <option>上海</option>
+                             <option>陕西</option>
+                             <option>山西</option>
+                             <option>天津</option>
+                             <option>台湾</option>
+                             <option>西藏</option>
+                             <option>香港</option>
+                             <option>新疆</option>
+                             <option>云南</option>
+                             <option>浙江</option>
+                          </select>
+              </div>
+              <div class=\"form-group\">
+                 <label for=\"name\">个性签名</label>
+                <input type=\"text\" class=\"form-control\" id='inputSignature' placeholder=\"请输入个性签名\">
+              </div>
+            </form>";
+            $creatStr .= "<p style='float: right'><a href='#' class=\"btn btn-primary btn-large\" onclick='findUser()'>取消</a>";
+            $creatStr .= "<a href='#' class=\"btn btn-success\" onclick='saveCreateUser()'>创建</a></p>";
+            return response()->json([
+                'status' => 1,
+                'msg' => $creatStr
+            ]);
+        }
+    }
+
+    public function saveCreateUser(Request $request)
+    {
+        if ($request->ajax()) {
+            if (count(ClientUser::where('clientName', $request->input('inputName'))->get()) == 0) {
+
+
+                $clientUser = new ClientUser();
+                $clientUser->clientName = $request->input('inputName');
+                $clientUser->password = $request->input('inputPassword');
+                $clientUser->pic_url = $request->input('inputIcon');
+                $clientUser->nick_name = $request->input('inputNickname');
+                $clientUser->sex = $request->input('inputSex');
+                $clientUser->address = $request->input('inputAddress');
+                $clientUser->signature = $request->input('inputSignature');
+                $clientUser->save();
+                return response()->json([
+                    'status' => 1,
+                    'msg' => '成功',
+                    'contained' => false
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 1,
+                    'msg' => '成功',
+                    'contained' => true
+                ]);
+            }
+        }
+    }
+
 
     public function detail(Request $request)
     {
@@ -523,6 +644,129 @@ class ClientUserController extends Controller
                     'created_at' => '' . $created_at,
                     'updated_at' => '' . $updated_at,
                 ));
+            }
+        }
+    }
+
+    public function modifyUserInfo(Request $request)
+    {
+        if ($request->ajax()) {
+            $idStr = $request->input('id');
+            $user = ClientUser::where('id', $idStr)->first();
+            if (!$user->exists) {
+                return Redirect::back()->withInput()->withErrors('查询失败!');
+            } else {
+                $tabstr = "<table class='table'>";
+                $tabstr .= "<thead align=\"center\">
+                            <tr>
+                                <td>客户信息</td>
+                                <td>内容</td>
+                                <td>新的内容</td>
+                            </tr>
+                        </thead><tbody align=\"center\">";
+                $pic = '/USER_' . md5($user->clientName) . 'jpg';
+                $tabstr .= "<tr><td>用户名:</td><td>" . $user->clientName . "</td><td></td></tr>";
+                $tabstr .= "<tr><td>用户头像:</td><td>" . "<img src=$pic class='img-circle'>" . "</td><td>
+                <div class=\"form-group\">
+                      <input type=\"file\" id=\"inputfile\">
+                  </div></td></tr>";
+                $tabstr .= "<tr><td>用户昵称:</td><td>" . $user->nick_name . "</td><td><form role='form'><div class='form-group'><input type='text' id='new_nickname' class='form-control' placeholder='新昵称'></div></form></td></tr>";
+                $tabstr .= "<tr><td>用户性别:</td><td>" . $user->sex . "</td><td>
+                        <label class=\"checkbox-inline\">
+                      <input type=\"radio\" name=\"optionsRadiosinline\" id=\"optionsRadiosMan\"
+                         value=\"男\" checked>男
+                   </label>
+                   <label class=\"checkbox-inline\">
+                      <input type=\"radio\" name=\"optionsRadiosinline\" id=\"optionsRadiosWoman\"
+                         value=\"女\">女
+                   </label></td></tr>";
+                $tabstr .= "<tr><td>用户地区:</td><td>" . $user->address . "</td><td><form role=\"form\">
+                       <div class=\"form-group\">
+                          <select id = 'new_address' class=\"form-control\">
+                             <option>安徽</option>
+                             <option>澳门</option>
+                             <option>北京</option>
+                             <option>福建</option>
+                             <option>广东</option>
+                             <option>甘肃</option>
+                             <option>广西</option>
+                             <option>贵州</option>
+                             <option>河北</option>
+                             <option>湖北</option>
+                             <option>黑龙江</option>
+                             <option>海南</option>
+                             <option>河南</option>
+                             <option>湖南</option>
+                             <option>吉林</option>
+                             <option>江苏</option>
+                             <option>江西</option>
+                             <option>辽宁</option>
+                             <option>青海</option>
+                             <option>四川</option>
+                             <option>山东</option>
+                             <option>上海</option>
+                             <option>陕西</option>
+                             <option>山西</option>
+                             <option>天津</option>
+                             <option>台湾</option>
+                             <option>西藏</option>
+                             <option>香港</option>
+                             <option>新疆</option>
+                             <option>云南</option>
+                             <option>浙江</option>
+                          </select>
+                       </div>
+                    </form></td></tr>";
+                $tabstr .= "<tr><td>用户签名:</td><td>" . $user->signature . "</td><td><form role='form'><div class='form-group'><input type='text' id='new_signature' class='form-control' placeholder='新签名'></div></form></td></tr>";
+                $tabstr .= "</tbody></table>";
+                $tabstr .= "<p style='float: right'><a href='#' data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='findUser()'>取消</a>";
+                $tabstr .= "<a href='#' data-id =$idStr  class=\"btn btn-success\" onclick='saveUserInfo(this)'>确认</a></p>";
+                return response()->json([
+                    'status' => 1,
+                    'msg' => $tabstr
+                ]);
+            }
+        }
+    }
+
+    public function saveUserInfo(Request $request)
+    {
+        if ($request->ajax()) {
+            $idStr = $request->input('id');
+            $user = ClientUser::where('id', $idStr)->first();
+            if (!$user->exists) {
+                return Redirect::back()->withInput()->withErrors('查询失败!');
+            } else {
+                if (strlen($request->input('new_nickname')) != 0) {
+                    $user->nick_name = $request->input('new_nickname');
+                }
+                $user->sex = $request->input('new_sex');
+                $user->address = $request->input('new_address');
+                if (strlen($request->input('new_signature')) != 0) {
+                    $user->signature = $request->input('new_signature');
+                }
+                $user->save();
+                return response()->json([
+                    'status' => 1,
+                    'msg' => 'OK'
+                ]);
+            }
+        }
+    }
+
+    public function deleteUserInfo(Request $request)
+    {
+        if ($request->ajax()) {
+            $idStr = $request->input('id');
+            $user = ClientUser::where('id', $idStr)->first();
+            if (!$user->exists) {
+                return Redirect::back()->withInput()->withErrors('查询失败!');
+            } else {
+                $user->delete();
+                return response()->json([
+                    'status' => 1,
+                    'msg' => 'OK'
+                ]);
             }
         }
     }
@@ -559,7 +803,7 @@ class ClientUserController extends Controller
                     $check = "<a href='#feedback_info' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getFeedbackDetail(this)'>查看</a>";
                     $hand = "<a href='#' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn  btn-success btn-large\" onclick='handleFeedback(this)'>处理</a>";
                     $delete = "<a href='#' data-id =$temp->id data-toggle=\"modal\" class=\"btn btn-danger btn-large\" onclick='deleteFeedback(this)'>删除</a>";
-                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>".$status."</td><td>" . $check  . $hand . $delete."</td></tr>";
+                    $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $status . "</td><td>" . $check . $hand . $delete . "</td></tr>";
                 }
                 $tabstr .= "</tbody></table>";
                 return response()->json(array(

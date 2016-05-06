@@ -27,6 +27,13 @@ Route::post('/userSyncRelationTable', 'ClientUserController@userSyncRelationTabl
 
 Route::post('/userFind', 'ClientUserController@find');
 Route::post('/userDetail', 'ClientUserController@detail');
+Route::post('/modifyUserInfo', 'ClientUserController@modifyUserInfo');
+Route::post('/saveUserInfo', 'ClientUserController@saveUserInfo');
+Route::post('/deleteUserInfo', 'ClientUserController@deleteUserInfo');
+Route::post('/createUser', 'ClientUserController@createUser');
+Route::post('/saveCreateUser', 'ClientUserController@saveCreateUser');
+
+
 
 Route::get('/feedbackAll', 'ClientUserController@feedbackAll');
 
