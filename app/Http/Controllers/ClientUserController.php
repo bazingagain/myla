@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\AddRequestInfo;
 use App\Feedback;
+use App\ShareRequestInfo;
 use Redis;
 use Cache;
 use Storage;
@@ -263,6 +265,12 @@ class ClientUserController extends Controller
             if (count($temp) == 0) {  //  自己不存在
                 return response()->json(['add' => false, 'message' => '请求非法']);
             } else {
+
+                $addreq = new AddRequestInfo();
+                $addreq->addrequestName = $array['clientName'];
+                $addreq->addrequestedName = $array['friendName'];
+                $addreq->save();
+
                 $requsetUser = $temp[0];
                 //TODO   找到要添加用户，发送JPUSH  推送请求  离线消息保留1天 开发环境
                 $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
@@ -409,6 +417,13 @@ class ClientUserController extends Controller
         $temp = ClientUser::where('clientName', '=', $clientName)->get();
         $user = $temp[0];
         $client = new JPush(self::$APP_KEY, self::$MASTER_SECRET);
+
+        //存共享请求数
+        $sharereq = new ShareRequestInfo();
+        $sharereq->sharerequestName = $array['clientName'];
+        $sharereq->sharerequestedName = $array['contactName'];
+        $sharereq->save();
+
         $result = $client->push()
             ->setPlatform('android')
             ->addAlias($array['contactName'])

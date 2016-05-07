@@ -9,7 +9,7 @@
                 <li role="presentation"><a href="{{url('/show_map')}}">地图显示</a></li>
                 <li role="presentation" class="active"><a href="{{url('/statistic_data')}}">数据统计</a></li>
                 <li role="presentation"><a href="{{url('/show_feedback')}}">用户反馈</a></li>
-                <li role="presentation" ><a href="{{url('/func_test')}}">功能测试</a></li>
+                <li role="presentation"><a href="{{url('/func_test')}}">功能测试</a></li>
             </ul>
         </div>
         <div class="container">
@@ -19,13 +19,34 @@
                         <div class="panel-heading">数据统计</div>
 
                         <div class="panel-body">
-
                             <p>
+                            <div style="float:right;" class="btn-group">
+                                <button id="recentBtnText" type="button" class="btn btn-primary dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    最近一年<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" onclick="showRecentSevenDay()">最近7天</a></li>
+                                    <li><a href="#" onclick="showRecentThirtyDay()">最近30天</a></li>
+                                    <li><a href="#" onclick="showRecentYear()">最近一年</a></li>
+                                </ul>
+                            </div>
                             <div id="main" style="width: 800px;height:400px;"></div>
                             </p>
-                            <hr >
+                            <hr>
                             <p>
-                            <div id="clienTrend" style="width: 800px;height:400px;"></div>
+                            <div style="float:right;" class="btn-group">
+                                <button id="recentClientBtnText" type="button" class="btn btn-primary dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    最近一年<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" onclick="showClientRecentSevenDay()">最近7天</a></li>
+                                    <li><a href="#" onclick="showClientRecentThirtyDay()">最近30天</a></li>
+                                    <li><a href="#" onclick="showClientRecentYear()">最近一年</a></li>
+                                </ul>
+                            </div>
+                            <div id="clientInfo" style="width: 800px;height:400px;"></div>
                             </p>
                             <hr>
                             <p>
@@ -43,14 +64,11 @@
     </div>
 
     <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var mainChart = echarts.init(document.getElementById('main'));
-        var clienTrendChart = echarts.init(document.getElementById('clienTrend'));
 
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '乐见新增用户增长图'
+                text: '乐见用户增长图'
             },
             tooltip: {},
             toolbox: {
@@ -62,34 +80,115 @@
                 data: ['新增用户数']
             },
             xAxis: {
-                data: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
+                data: []
             },
             yAxis: {},
             series: [{
                 name: '新增用户数',
                 type: 'bar',
-                data: [5, 5, 5, 5, 5, 5, 5, 5, 20, 36, 10, 10]
+                data: []
             }]
         };
-
         // 使用刚指定的配置项和数据显示图表。
+        var mainChart = echarts.init(document.getElementById('main'));
+        mainChart.showLoading();
         mainChart.setOption(option);
+        showRecentYear();
+        function showRecentSevenDay() {
+            $.ajax({
+                type: 'get',
+                url: 'getUserNumInfo/sevenday',
+                success: function (data) {
+                    $('#recentBtnText').text('最近7天');
+                    mainChart.hideLoading();
+                    mainChart.setOption({
+                        xAxis: {
+                            data: data.timeStamp
+                        },
+                        series: [
+                            {
+                                name: '新增用户数',
+                                data: data.msg1
+                            }
+                        ]
+                    });
+                },
+                error: function (data) {
+                    mainChart.hideLoading();
+                    mainChart.setOption('error');
+                }
+            });
+        }
 
-        trendOption = {
+        function showRecentThirtyDay() {
+            $.ajax({
+                type: 'get',
+                url: 'getUserNumInfo/thirtyday',
+                success: function (data) {
+                    $('#recentBtnText').text('最近30天');
+                    mainChart.hideLoading();
+                    mainChart.setOption({
+                        xAxis: {
+                            data: data.timeStamp
+                        },
+                        series: [
+                            {
+                                name: '新增用户数',
+                                data: data.msg1
+                            }
+                        ]
+                    });
+                },
+                error: function (data) {
+                    mainChart.hideLoading();
+                    mainChart.setOption('error');
+                }
+            });
+        }
+        function showRecentYear() {
+            $.ajax({
+                type: 'get',
+                url: 'getUserNumInfo/year',
+                success: function (data) {
+                    $('#recentBtnText').text('最近一年');
+                    mainChart.hideLoading();
+                    mainChart.setOption({
+                        xAxis: {
+                            data: data.timeStamp
+                        },
+                        series: [
+                            {
+                                name: '新增用户数',
+                                data: data.msg1
+                            }
+                        ]
+                    });
+                },
+                error: function (data) {
+                    mainChart.hideLoading();
+                    mainChart.setOption('error');
+                }
+            });
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        option = {
             title: {
-                text: '用户统计'
+                text: '用户推送信息'
             },
             tooltip: {
-                trigger: 'axis'
+                trigger: '用户推送信息'
             },
             legend: {
-                data: ['新增用户', '在线用户', '活跃用户']
+                data: ['新增用户数量', '添加请求数量', '共享请求数量']
             },
             grid: {
-//                left: '3%',
-//                right: '4%',
-//                bottom: '3%',
-//                containLabel: true
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
             },
             toolbox: {
                 feature: {
@@ -99,48 +198,146 @@
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
+                data: []
             },
             yAxis: {
                 type: 'value'
             },
             series: [
                 {
-                    name: '新增用户',
+                    name: '新增用户数量',
                     type: 'line',
                     stack: '总量',
-                    data: [120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90]
+                    data: []
                 },
                 {
-                    name: '在线用户',
+                    name: '添加请求数量',
                     type: 'line',
                     stack: '总量',
-                    data: [220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290]
+                    data: []
                 },
                 {
-                    name: '活跃用户',
+                    name: '共享请求数量',
                     type: 'line',
                     stack: '总量',
-                    data: [150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190]
+                    data: []
                 }
             ]
         };
 
-        clienTrendChart.setOption(trendOption);
+        var infoChart = echarts.init(document.getElementById('clientInfo'));
+        infoChart.showLoading();
+        infoChart.setOption(option);
+        showClientRecentYear();
+        function showClientRecentYear() {
+            $.ajax({
+                type: 'get',
+                url: 'getMessageInfo/year',
+                success: function (data) {
+                    infoChart.hideLoading();
+                    $('#recentClientBtnText').text('最近一年');
+                    infoChart.hideLoading();
+                    infoChart.setOption({
+                        xAxis: {
+                            data: data.timeStamp
+                        },
+                        series: [
+                            {
+                                name: '新增用户数量',
+                                data: data.msg1
+                            },
+                            {
+                                name: '添加请求数量',
+                                data: data.msg2
+                            },
+                            {
+                                name: '共享请求数量',
+                                data: data.msg3
+                            }
+                        ]
+                    });
+                },
+                error: function (data) {
+                    infoChart.hideLoading();
+                    infoChart.setOption('error');
+                }
+            });
+        }
+        function showClientRecentThirtyDay() {
+            $.ajax({
+                type: 'get',
+                url: 'getMessageInfo/thirtyday',
+                success: function (data) {
+                    $('#recentClientBtnText').text('最近30天');
+                    infoChart.hideLoading();
+                    infoChart.setOption({
+                        xAxis: {
+                            data: data.timeStamp
+                        },
+                        series: [
+                            {
+                                name: '新增用户数量',
+                                data: data.msg1
+                            },
+                            {
+                                name: '添加请求数量',
+                                data: data.msg2
+                            },
+                            {
+                                name: '共享请求数量',
+                                data: data.msg3
+                            }
+                        ]
+                    });
+                },
+                error: function (data) {
+                    infoChart.hideLoading();
+                    infoChart.setOption('error');
+                }
+            });
+        }
+        function showClientRecentSevenDay() {
+            $.ajax({
+                type: 'get',
+                url: 'getMessageInfo/sevenday',
+                success: function (data) {
+                    $('#recentClientBtnText').text('最近7天');
+                    infoChart.hideLoading();
+                    infoChart.setOption({
+                        xAxis: {
+                            data: data.timeStamp
+                        },
+                        series: [
+                            {
+                                name: '新增用户数量',
+                                data: data.msg1
+                            },
+                            {
+                                name: '添加请求数量',
+                                data: data.msg2
+                            },
+                            {
+                                name: '共享请求数量',
+                                data: data.msg3
+                            }
+                        ]
+                    });
+                },
+                error: function (data) {
+                    infoChart.hideLoading();
+                    infoChart.setOption('error');
+                }
+            });
+        }
 
     </script>
 
+
     <script type="text/javascript">
-
-        var mapChart = echarts.init(document.getElementById('mapTrend'));
-        function randomData() {
-            return Math.round(Math.random() * 1000);
-        }
-
-        mapOption = {
+        sexOption = {
             title: {
-                text: '客户分布',
-                subtext: '各省客户分布情况',
+                text: '客户性别分布',
+                subtext: '各省分布情况',
                 left: 'center'
             },
             tooltip: {
@@ -149,11 +346,11 @@
             legend: {
                 orient: 'vertical',
                 left: 'left',
-                data: ['iphone3', 'iphone4', 'iphone5']
+                data: ['男', '女']
             },
             visualMap: {
                 min: 0,
-                max: 800,
+                max: 100,
                 left: 'left',
                 top: 'bottom',
                 text: ['高', '低'],           // 文本，默认为数值文本
@@ -171,10 +368,12 @@
             },
             series: [
                 {
-                    name: 'iphone3',
+                    name: '男',
                     type: 'map',
                     mapType: 'china',
                     roam: false,
+                    selectedMode: 'multiple',
+                    mapValueCalculation: 'sum',
                     label: {
                         normal: {
                             show: true
@@ -183,47 +382,14 @@
                             show: true
                         }
                     },
-                    data: [
-                        {name: '北京', value: randomData()},
-                        {name: '天津', value: randomData()},
-                        {name: '上海', value: randomData()},
-                        {name: '重庆', value: randomData()},
-                        {name: '河北', value: randomData()},
-                        {name: '河南', value: randomData()},
-                        {name: '云南', value: randomData()},
-                        {name: '辽宁', value: randomData()},
-                        {name: '黑龙江', value: randomData()},
-                        {name: '湖南', value: randomData()},
-                        {name: '安徽', value: randomData()},
-                        {name: '山东', value: randomData()},
-                        {name: '新疆', value: randomData()},
-                        {name: '江苏', value: randomData()},
-                        {name: '浙江', value: randomData()},
-                        {name: '江西', value: randomData()},
-                        {name: '湖北', value: randomData()},
-                        {name: '广西', value: randomData()},
-                        {name: '甘肃', value: randomData()},
-                        {name: '山西', value: randomData()},
-                        {name: '内蒙古', value: randomData()},
-                        {name: '陕西', value: randomData()},
-                        {name: '吉林', value: randomData()},
-                        {name: '福建', value: randomData()},
-                        {name: '贵州', value: randomData()},
-                        {name: '广东', value: randomData()},
-                        {name: '青海', value: randomData()},
-                        {name: '西藏', value: randomData()},
-                        {name: '四川', value: randomData()},
-                        {name: '宁夏', value: randomData()},
-                        {name: '海南', value: randomData()},
-                        {name: '台湾', value: randomData()},
-                        {name: '香港', value: randomData()},
-                        {name: '澳门', value: randomData()}
-                    ]
+                    data: []
                 },
                 {
-                    name: 'iphone4',
+                    name: '女',
                     type: 'map',
                     mapType: 'china',
+                    selectedMode: 'multiple',
+                    mapValueCalculation: 'sum',
                     label: {
                         normal: {
                             show: true
@@ -232,58 +398,43 @@
                             show: true
                         }
                     },
-                    data: [
-                        {name: '北京', value: randomData()},
-                        {name: '天津', value: randomData()},
-                        {name: '上海', value: randomData()},
-                        {name: '重庆', value: randomData()},
-                        {name: '河北', value: randomData()},
-                        {name: '安徽', value: randomData()},
-                        {name: '新疆', value: randomData()},
-                        {name: '浙江', value: randomData()},
-                        {name: '江西', value: randomData()},
-                        {name: '山西', value: randomData()},
-                        {name: '内蒙古', value: randomData()},
-                        {name: '吉林', value: randomData()},
-                        {name: '福建', value: randomData()},
-                        {name: '广东', value: randomData()},
-                        {name: '西藏', value: randomData()},
-                        {name: '四川', value: randomData()},
-                        {name: '宁夏', value: randomData()},
-                        {name: '香港', value: randomData()},
-                        {name: '澳门', value: randomData()}
-                    ]
-                },
-                {
-                    name: 'iphone5',
-                    type: 'map',
-                    mapType: 'china',
-                    label: {
-                        normal: {
-                            show: true
-                        },
-                        emphasis: {
-                            show: true
-                        }
-                    },
-                    data: [
-                        {name: '北京', value: randomData()},
-                        {name: '天津', value: randomData()},
-                        {name: '上海', value: randomData()},
-                        {name: '广东', value: randomData()},
-                        {name: '台湾', value: randomData()},
-                        {name: '香港', value: randomData()},
-                        {name: '澳门', value: randomData()}
-                    ]
+                    data: []
                 }
+
             ]
         };
+        var sexChart = echarts.init(document.getElementById('mapTrend'));
+        sexChart.showLoading();
+        sexChart.setOption(sexOption);
+        $.ajax({
+            type: 'get',
+            url: 'getUserSexInfo',
+            success: function (data) {
+                sexChart.hideLoading();
+                sexChart.setOption({
+                    series: [
+                        {
+                            name: '男',
+                            data: data.msg1
+                        },
+                        {
+                            name: '女',
+                            data: data.msg2
+                        }
+                    ]
+                });
+            },
+            error: function (data) {
+                sexChart.hideLoading();
+                sexChart.setOption('error');
+            }
+        });
 
-        mapChart.setOption(mapOption);
     </script>
-
+    {{--地理分布--}}
     <script type="text/javascript">
-        pieOption = {
+
+        var pieOption = {
             title: {
                 text: '用户地理分布',
                 x: 'center'
@@ -295,39 +446,9 @@
             legend: {
                 x: 'center',
                 y: 'bottom',
-                data: ['北京',
-                    '天津',
-                    '上海',
-                    '重庆',
-                    '河北',
-                    '河南',
-                    '云南',
-                    '辽宁',
-                    '黑龙江',
-                    '湖南',
-                    '安徽',
-                    '山东',
-                    '新疆',
-                    '江苏',
-                    '浙江',
-                    '江西',
-                    '湖北',
-                    '广西',
-                    '甘肃',
-                    '山西',
-                    '内蒙古',
-                    '陕西',
-                    '吉林',
-                    '福建',
-                    '贵州',
-                    '广东',
-                    '青海',
-                    '西藏',
-                    '四川',
-                    '海南',
-                    '台湾',
-                    '香港',
-                    '澳门']
+                data: ['北京', '天津', '上海', '重庆', '河北', '河南', '云南', '辽宁', '黑龙江', '湖南', '安徽',
+                    '山东', '新疆', '江苏', '浙江', '江西', '湖北', '广西', '甘肃', '山西', '内蒙古', '陕西', '吉林', '福建',
+                    '贵州', '广东', '青海', '西藏', '四川', '海南', '台湾', '香港', '澳门']
             },
             toolbox: {
                 show: true,
@@ -370,40 +491,7 @@
                         }
                     },
                     data: [
-                        {value: 10, name: '北京'},
-                        {value: 5, name: '天津'},
-                        {value: 15, name: '上海'},
-                        {value: 25, name: '重庆'},
-                        {value: 20, name: '河北'},
-                        {value: 35, name: '河南'},
-                        {value: 30, name: '云南'},
-                        {value: 40, name: '辽宁'},
-                        {value: 40, name: '黑龙江'},
-                        {value: 40, name: '湖南'},
-                        {value: 40, name: '安徽'},
-                        {value: 40, name: '山东'},
-                        {value: 40, name: '新疆'},
-                        {value: 40, name: '江苏'},
-                        {value: 40, name: '浙江'},
-                        {value: 40, name: '江西'},
-                        {value: 40, name: '湖北'},
-                        {value: 40, name: '广西'},
-                        {value: 40, name: '甘肃'},
-                        {value: 40, name: '山西'},
-                        {value: 40, name: '内蒙古'},
-                        {value: 40, name: '陕西'},
-                        {value: 40, name: '吉林'},
-                        {value: 40, name: '福建'},
-                        {value: 40, name: '贵州'},
-                        {value: 40, name: '广东'},
-                        {value: 40, name: '青海'},
-                        {value: 40, name: '西藏'},
-                        {value: 40, name: '四川'},
-                        {value: 40, name: '宁夏'},
-                        {value: 40, name: '海南'},
-                        {value: 40, name: '台湾'},
-                        {value: 40, name: '香港'},
-                        {value: 40, name: '澳门'}
+                        //TODO
                     ]
                 },
                 {
@@ -413,46 +501,38 @@
                     center: ['75%', 200],
                     roseType: 'area',
                     data: [
-                        {value: 10, name: '北京'},
-                        {value: 5, name: '天津'},
-                        {value: 15, name: '上海'},
-                        {value: 25, name: '重庆'},
-                        {value: 20, name: '河北'},
-                        {value: 35, name: '河南'},
-                        {value: 30, name: '云南'},
-                        {value: 40, name: '辽宁'},
-                        {value: 40, name: '黑龙江'},
-                        {value: 40, name: '湖南'},
-                        {value: 40, name: '安徽'},
-                        {value: 40, name: '山东'},
-                        {value: 40, name: '新疆'},
-                        {value: 40, name: '江苏'},
-                        {value: 40, name: '浙江'},
-                        {value: 40, name: '江西'},
-                        {value: 40, name: '湖北'},
-                        {value: 40, name: '广西'},
-                        {value: 40, name: '甘肃'},
-                        {value: 40, name: '山西'},
-                        {value: 40, name: '内蒙古'},
-                        {value: 40, name: '陕西'},
-                        {value: 40, name: '吉林'},
-                        {value: 40, name: '福建'},
-                        {value: 40, name: '贵州'},
-                        {value: 40, name: '广东'},
-                        {value: 40, name: '青海'},
-                        {value: 40, name: '西藏'},
-                        {value: 40, name: '四川'},
-                        {value: 40, name: '宁夏'},
-                        {value: 40, name: '海南'},
-                        {value: 40, name: '台湾'},
-                        {value: 40, name: '香港'},
-                        {value: 40, name: '澳门'}
+                        //TODO
                     ]
                 }
             ]
         };
         var pieChart = echarts.init(document.getElementById('pieTrend'));
+        pieChart.showLoading();
         pieChart.setOption(pieOption);
+        $.ajax({
+            type: 'get',
+            url: 'getUserAddressInfo',
+            success: function (data) {
+                pieChart.hideLoading();
+                pieChart.setOption({
+                    series: [
+                        {
+                            name: '半径模式',
+                            data: data.msg1
+                        },
+                        {
+                            name: '面积模式',
+                            data: data.msg2
+                        }
+                    ]
+                });
+            },
+            error: function (data) {
+                pieChart.hideLoading();
+                pieChart.setOption('error');
+            }
+        });
+
     </script>
 
 @endsection

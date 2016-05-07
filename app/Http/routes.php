@@ -22,6 +22,7 @@ Route::post('/userRegister', 'ClientUserController@store');
 Route::post('/userLogin', 'ClientUserController@login');
 Route::post('/userAdd', 'ClientUserController@add');
 Route::post('/userAgree', 'ClientUserController@agree');
+//用户登录时同步好友表及头像
 Route::post('/userSyncRelationTable', 'ClientUserController@userSyncRelationTable');
 
 
@@ -71,6 +72,21 @@ Route::group(['prefix' => 'userProfile'], function () {
     Route::post('setSex','ClientUserController@setSex');
     Route::post('setAddress','ClientUserController@setAddress');
 });
+
+Route::group(['prefix' => 'getUserNumInfo'], function () {
+    Route::get('year', 'StatisticController@getUserNumInfoYear');
+    Route::get('thirtyday', 'StatisticController@getUserNumInfoThirthday');
+    Route::get('sevenday', 'StatisticController@getUserNumInfoSevenday');
+});
+
+Route::group(['prefix' => 'getMessageInfo'], function () {
+    Route::get('year', 'StatisticController@getMessageInfoYear');
+    Route::get('thirtyday', 'StatisticController@getMessageInfoThirthday');
+    Route::get('sevenday', 'StatisticController@getMessageInfoSevenday');
+});
+
+Route::get('getUserAddressInfo', 'StatisticController@getUserAddressInfo');
+Route::get('getUserSexInfo', 'StatisticController@getUserSexInfo');
 
 /**
  * 测试

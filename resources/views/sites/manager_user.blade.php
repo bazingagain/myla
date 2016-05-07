@@ -21,7 +21,7 @@
                                 用户管理
                                 <div class="form-group" style="float: right">
                                     <input type="text" class="form-control" id="userName"
-                                           placeholder="请输入用户名" onchange="findUser()">
+                                           placeholder="请输入用户名" onchange="findUser()" onfocus="changeWidth()" onblur="backWidth()">
                                     <button type="submit" class="btn btn-default" onclick="findUser()">查找</button>
                                     <button type="submit" class="btn btn-default" onclick="createUser()">新建</button>
                                 </div>
@@ -96,6 +96,15 @@
 
 
 <script type="text/javascript">
+
+    function changeWidth()
+    {
+        $('#userName').animate({width:'+=100px'}, "slow");
+    }
+    function backWidth()
+    {
+        $('#userName').animate({width:'-=100px'}, "slow");
+    }
 
     function findUser() {
 
