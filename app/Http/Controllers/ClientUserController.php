@@ -920,6 +920,9 @@ class ClientUserController extends Controller
                     'msg' => '找到此人',
                     'location_latitude' => Cache::has('location_latitude:' . $nameStr) ? (Cache::get('location_latitude:' . $nameStr)) : 0,
                     'location_lontitude' => Cache::has('location_lontitude:' . $nameStr) ? (Cache::get('location_lontitude:' . $nameStr)) : 0,
+                    'sex' => $temps[0]['sex'],
+                    'address' => $temps[0]['address'],
+                    'signature' => $temps[0]['signature'],
                     'isUser' => true
                 ));
             }
