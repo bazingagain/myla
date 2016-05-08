@@ -447,6 +447,18 @@ class ClientUserController extends Controller
         ));
     }
 
+    public function updateUserLoc(Request $request)
+    {
+        if ($request->ajax()) {
+            $nameStr = $request->input('name');
+            return response()->json(array(
+                'status' => 1,
+                'location_latitude' => Cache::has('location_latitude:' . $nameStr) ? (Cache::get('location_latitude:' . $nameStr)) : 0,
+                'location_lontitude' => Cache::has('location_lontitude:' . $nameStr) ? (Cache::get('location_lontitude:' . $nameStr)) : 0,
+            ));
+        }
+    }
+
     public function agreeShareLocation(Request $request)
     {
         $jsonstr = $request->input('agreeShareLoc');
@@ -619,7 +631,7 @@ class ClientUserController extends Controller
                     'msg' => '成功',
                     'contained' => false
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'status' => 1,
                     'msg' => '成功',

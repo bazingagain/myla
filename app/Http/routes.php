@@ -51,6 +51,7 @@ Route::post('/userSetLocation', 'ClientUserController@setLocation');
 Route::get('/userGetLocation', 'ClientUserController@getLocation');
 Route::post('/lockUser', 'ClientUserController@lockUser');
 Route::post('/trackUser', 'ClientUserController@trackUser');
+Route::get('/updateUserLoc', 'ClientUserController@updateUserLoc');
 
 
 Route::post('/userModifyPassword', 'ClientUserController@modifyPassword');

@@ -126,12 +126,13 @@
         /**
          * 实时跟踪用户，在地图上描绘出其运动轨迹
          */
-        function track() {
+        function track(la, lo) {
             var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
                 //offset: new BMap.Size(0, -5),    //相当于CSS精灵
                 imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
             });
-            var pts = new BMap.Point(116.3786889372559, 39.90762965106183);
+
+            var pts = new BMap.Point(lo, la);
             var carMk = new BMap.Marker(pts, {icon: myIcon});
             map.clearOverlays();
             map.addOverlay(carMk);
@@ -139,17 +140,29 @@
             var i = 0;
             map.panTo(pts);
 
-            var polyline = new BMap.Polyline([
-                new BMap.Point(116.399, 39.910),
-                new BMap.Point(116.405, 39.920),
-            ], {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5});   //创建折线
+//            var polyline = new BMap.Polyline([
+//                new BMap.Point(116.399, 39.910),
+//                new BMap.Point(116.405, 39.920),
+//            ], {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5});   //创建折线
 
+            var oldPts = pts;
             function update() {
-                i += 0.000001;
-//                map.addOverlay(carMk);
-                var oldPts = pts;
-                pts = new BMap.Point(116.3786889372559 + i, 39.90762965106183);
+                i+=0.001;
+                $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: 'updateUserLoc',
+                data: {name: currentTrackUser},
+                success : function(json){
+                    console.log(i);
+                    oldPts = pts;
+                        pts = new BMap.Point(json.location_lontitude + i, json.location_latitude + i);
+                    },
+                    error : function(json){
 
+                    }
+                });
+//                i += 0.000001;
                 polyline = new BMap.Polyline([
                     oldPts,
                     pts,
@@ -162,6 +175,10 @@
             tick = setInterval(update, 100);
         }
 
+
+        /**
+         * 跟踪用户
+         */
         function trackUser() {
             if (hasError())
                 return;
@@ -180,12 +197,12 @@
                             currentTrackUser = $("#userName").val();
                             //如果以前没有定义跟踪
                             if (tick == null) {
-                                track();
+                                track(json.location_latitude, json.location_lontitude);
                             }
                             else {
                                 clearInterval(tick);
                                 tick = null;
-                                track();
+                                track(json.location_latitude, json.location_lontitude);
                             }
                         }
                         //设置只有在跟踪模式下才能记录轨迹
