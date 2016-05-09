@@ -35,15 +35,15 @@
                             </p>
                             <hr>
                             <p>
-                            <div style="float:right;" class="btn-group">
+                            <div id="pic2" style="float:right;" class="btn-group">
                                 <button id="recentClientBtnText" type="button" class="btn btn-primary dropdown-toggle"
                                         data-toggle="dropdown">
                                     最近一年<span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#" onclick="showClientRecentSevenDay()">最近7天</a></li>
-                                    <li><a href="#" onclick="showClientRecentThirtyDay()">最近30天</a></li>
-                                    <li><a href="#" onclick="showClientRecentYear()">最近一年</a></li>
+                                    <li><a href="#pic2" onclick="showClientRecentSevenDay()">最近7天</a></li>
+                                    <li><a href="#pic2" onclick="showClientRecentThirtyDay()">最近30天</a></li>
+                                    <li><a href="#pic2" onclick="showClientRecentYear()">最近一年</a></li>
                                 </ul>
                             </div>
                             <div id="clientInfo" style="width: 800px;height:400px;"></div>
