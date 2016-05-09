@@ -105,10 +105,9 @@
                         var content =
                                 "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" + $("#userName").val() + "</h4>" +
                                 "<img style='float:right;margin:4px' id='imgDemo' src='http://app.baidu.com/map/images/tiananmen.jpg' width='139' height='104'/>" +
-                                "<p style='margin:0;line-height:1.5;font-size:13px;'>性别：     " + "</p>" +
-                                "<p style='margin:0;line-height:1.5;font-size:13px;'>地区：     " + "</p>" +
-                                "<p style='margin:0;line-height:1.5;font-size:13px;'>个性签名：  " + "</p>" +
-                                "<p style='margin:0;line-height:1.5;font-size:13px;'>是否在线：  " + "</p>" +
+                                "<p style='margin:0;line-height:1.5;font-size:13px;'>性别：     " +json.sex+ "</p>" +
+                                "<p style='margin:0;line-height:1.5;font-size:13px;'>地区：     " +json.address +"</p>" +
+                                "<p style='margin:0;line-height:1.5;font-size:13px;'>个性签名：  "+json.signature+  "</p>" +
                                 "</div>";
                         addMarker(map, point, content);
                         map.panTo(point);

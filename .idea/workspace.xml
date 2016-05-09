@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="992fa16b-4b8b-4f88-b706-99b39f14642c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientUserController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sites/show_map.blade.php" afterPath="$PROJECT_DIR$/resources/views/sites/show_map.blade.php" />
     </list>
     <ignored path="myla.iws" />
