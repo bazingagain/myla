@@ -23,11 +23,12 @@
 
                             <div class="navbar-form">
                                 {!! csrf_field() !!}
-                                {!! Form::label('mapPosition', '用户定位')!!}
+                                {!! Form::label('mapPosition', '位置共享信息')!!}
+                                {!! Form::submit('所有共享用户', ['class' => 'btn btn-default', 'onclick' => 'showAllShareUser()']) !!}
                                 {!! Form::text('userName', null, ['class' => 'form-control', 'id'=>'userName', 'placeholder'=>"请输入用户名"]) !!}
-                                {!! Form::submit('定位', ['class' => 'btn btn-default', 'onclick' => 'lockUser()']) !!}
-                                {!! Form::submit('跟踪', ['class' => 'btn btn-default', 'onclick' => 'trackUser()']) !!}
-                                {!! Form::submit('轨迹记录', ['class' => 'btn btn-default','disabled'=>'disabled', 'id'=>'trackLine','onclick' => 'trackLine()']) !!}
+                                {!! Form::submit('定位共享用户', ['class' => 'btn btn-default', 'onclick' => 'lockUser()']) !!}
+                                {!! Form::submit('跟随共享用户', ['class' => 'btn btn-default', 'onclick' => 'trackUser()']) !!}
+                                {!! Form::submit('最近共享轨迹', ['class' => 'btn btn-default', 'id'=>'trackLine','onclick' => 'historytrackLine()']) !!}
                                 <div id="tips" style="height: 20px">
                                 </div>
                             </div>
@@ -111,9 +112,8 @@
                                 "</div>";
                         addMarker(map, point, content);
                         map.panTo(point);
-                        $("#trackLine").attr('disabled', true);  //定位模式下设置轨迹不可见
                     } else {
-                        var tip = "<span class='label label-warning' style='height: 20px;margin-left: 62px;margin-top: 0px'><strong>您查找的用户不存在</strong></span>";
+                        var tip = "<span class='label label-warning' style='height: 20px;margin-left: 62px;margin-top: 0px'><strong>"+json.msg+"</strong></span>";
                         $("#tips").html(tip);
                     }
                 },
@@ -204,21 +204,77 @@
                                 track(json.location_latitude, json.location_lontitude);
                             }
                         }
-                        //设置只有在跟踪模式下才能记录轨迹
-                        $("#trackLine").attr('disabled', false);
 
                     } else {
-                        var tip = "<span class='label label-warning' style='height: 20px;margin-left: 62px;margin-top: 0px'><strong>您跟踪的用户不存在</strong></span>";
+                        var tip = "<span class='label label-warning' style='height: 20px;margin-left: 62px;margin-top: 0px'><strong>"+json.msg+"</strong></span>";
                         $("#tips").html(tip);
                     }
                 },
                 error: function (xhr, type) {
+                    var tip = "<span class='label label-warning' style='height: 20px;margin-left: 62px;margin-top: 0px'><strong>查询错误</strong></span>";
+                    $("#tips").html(tip);
                 }
             });
         }
 
-        function trackLine() {
+        function historytrackLine() {
 
+        }
+
+        /**
+         * 显示所有的共享用户，即 friend_relations 中的 sharestatusme为 true的用户地理位置信息
+         */
+        function showAllShareUser(){
+            $.ajax({
+                type: 'post',
+                url: 'showAllShareUser',
+                success: function(json){
+                    if(json.count <=0){
+                        var tip = "<span class='label label-warning' style='height: 20px;margin-left: 62px;margin-top: 0px'><strong>没有正在共享的用户</strong></span>";
+                        $("#tips").html(tip);
+                        return ;
+                    }
+                    map.clearOverlays();
+                    for(var i = 0; i < json.count; i++){
+                        console.log(json.user[i]['userName']);
+                        showAllShareUserOne(json.user[i]['userName']);
+                    }
+                },
+                error : function(xhr, type){
+
+                }
+            });
+        }
+
+        function showAllShareUserOne(name) {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: 'lockUser',
+                data: {name: name},
+                success: function (json) {
+                    if (json.isUser) {
+                        var point = new BMap.Point(json.location_lontitude, json.location_latitude);
+                        if (tick != null) {
+                            clearInterval(tick);
+//                            map.panTo(point);
+                            tick = null;
+                            currentTrackUser = null; //清除跟踪用户
+                        }
+                        var content =
+                                "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" + name + "</h4>" +
+                                "<img style='float:right;margin:4px' id='imgDemo' src='http://app.baidu.com/map/images/tiananmen.jpg' width='139' height='104'/>" +
+                                "<p style='margin:0;line-height:1.5;font-size:13px;'>性别：     " +json.sex+ "</p>" +
+                                "<p style='margin:0;line-height:1.5;font-size:13px;'>地区：     " +json.address +"</p>" +
+                                "<p style='margin:0;line-height:1.5;font-size:13px;'>个性签名：  "+json.signature+  "</p>" +
+                                "</div>";
+                        addMarker(map, point, content);
+                    }
+                },
+                error: function (xhr, type) {
+
+                }
+            });
         }
 
         function hasError() {

@@ -9,10 +9,13 @@ use App\Http\Controllers\Controller;
 
 class SiteController extends Controller
 {
-    public function about(){
+    public function about()
+    {
         return view('sites.about');
     }
-    public function managerUser(){
+
+    public function managerUser()
+    {
 //        $name = '<span style="color:red">jelly</span>';
 //        return view('sites.manager_user', ['userName' => $name]);
         $userName = 'name1';
@@ -20,18 +23,31 @@ class SiteController extends Controller
         $people = [];
         return view('sites.manager_user', compact('people'));
     }
-    public function showMap(){
+
+    public function showMap()
+    {
         return view('sites.show_map');
     }
-    public function statisticData(){
+
+    public function statisticData()
+    {
         return view('sites.statistic_data');
     }
-    public function showFeedback(){
+
+    public function showFeedback()
+    {
         return view('sites.feedback');
     }
-    public function showFunctest(){
+
+    public function showFunctest()
+    {
         return view('sites.functest');
     }
 
+    public function showSignalUserLoc($sharename){
+        $name =$sharename;  //分享的用户名
+        $time = 10;  //minute  可见时间
+        return view('sites.showSignalUserLoc', compact('name', 'time'));
+    }
 }
 

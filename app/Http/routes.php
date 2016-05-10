@@ -52,6 +52,8 @@ Route::get('/userGetLocation', 'ClientUserController@getLocation');
 Route::post('/lockUser', 'ClientUserController@lockUser');
 Route::post('/trackUser', 'ClientUserController@trackUser');
 Route::get('/updateUserLoc', 'ClientUserController@updateUserLoc');
+//共享URL
+Route::get('/showSingleUserLoc', 'ClientUserController@showSingleUserLoc');
 
 
 Route::post('/userModifyPassword', 'ClientUserController@modifyPassword');
@@ -61,6 +63,9 @@ Route::post('/userFeedback', 'ClientUserController@feedback');
 Route::post('/userShareLocation', 'ClientUserController@shareLocation');
 Route::post('/getContactLocation', 'ClientUserController@getContactLocation');
 Route::post('/agreeShareLocation', 'ClientUserController@agreeShareLocation');
+Route::post('/closeShareLocation', 'ClientUserController@closeShareLocation');
+
+Route::post('/showAllShareUser', 'ClientUserController@showAllShareUser');
 
 
 
@@ -72,6 +77,7 @@ Route::group(['prefix' => 'userProfile'], function () {
     Route::post('setIcon','ClientUserController@setIcon');
     Route::post('setSex','ClientUserController@setSex');
     Route::post('setAddress','ClientUserController@setAddress');
+    Route::post('updateTempshare','ClientUserController@updateTempshare');
 });
 
 Route::group(['prefix' => 'getUserNumInfo'], function () {
@@ -109,6 +115,8 @@ Route::group(['prefix' => 'admin'], function () {
 | kernel and includes session state, CSRF protection, and more.
 |
 */
+
+Route::get('/showSignalUserLoc/{sharename}', 'SiteController@showSignalUserLoc');
 
 Route::group(['middleware' => ['web']], function () {
 });

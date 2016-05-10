@@ -77,6 +77,7 @@ class ClientUserController extends Controller
             $clientUser = new ClientUser();
             $clientUser->clientName = $array['clientName'];
             $clientUser->password = $array['password'];
+            $clientUser->tempshare = $array['tempshare'];
             $clientUser->save();
             return response()->json(['register' => true, 'message' => '创建成功']);
         } else
@@ -227,6 +228,20 @@ class ClientUserController extends Controller
             return response()->json(['saveAddress' => true, 'message' => '修改地址成功']);
         }
     }
+    public function updateTempshare(Request $request)
+    {
+        $jsonstr = $request->input('updateTempshare');
+        $array = json_decode($jsonstr, true);
+        $temp = ClientUser::where('clientName', $array['clientName'])->get();
+        if (count($temp) == 0) {
+            return response()->json(['saveTempshare' => false, 'message' => '修改tempshare失败']);
+        } else {
+            $clientUser = $temp[0];
+            $clientUser->tempshare = $array['tempshare'];
+            $clientUser->save();
+            return response()->json(['saveTempshare' => true, 'message' => '修改tempshare成功']);
+        }
+    }
 
     public function feedback(Request $request)
     {
@@ -323,8 +338,8 @@ class ClientUserController extends Controller
                 ->addAndroidNotification('添加好友' . $array['clientName'] . '成功', null, 1, array('type' => 'agree', "friend_name" => $agreeUser->clientName, 'friend_nickname' => $agreeUser->nick_name, 'pic_url' => $agreeUser->pic_url, 'friend_sex' => $agreeUser->sex, 'friend_address' => $agreeUser->address, 'friend_signature' => $agreeUser->signature))
                 ->setOptions(100000, 3600, null, false)
                 ->send();
-            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['clientName'], $array['requsetUserName']]);
-            DB::insert('insert into friend_relations (userName, friendName) values (?, ?)', [$array['requsetUserName'], $array['clientName']]);
+            DB::insert('insert into friend_relations (userName, friendName, sharestatusme, sharestatusfr) values (?, ?, ?, ?)', [$array['clientName'], $array['requsetUserName'], false, false]);
+            DB::insert('insert into friend_relations (userName, friendName, sharestatusme, sharestatusfr) values (?, ?, ?, ?)', [$array['requsetUserName'], $array['clientName'] ,false, false]);
             error_log('好友关系' . $array['clientName'] . ':' . $array['requsetUserName'] . '插入成功');
             return response()->json(['saveAgree' => true, 'message' => '同意好友添加请求']);
         }
@@ -431,6 +446,8 @@ class ClientUserController extends Controller
             ->setOptions(100000, 3600, null, false)
             ->send();
         error_log('服务器发送 shareLocation成功');
+        DB::update('update friend_relations set sharestatusme = TRUE where userName = ? and friendName = ?', [$array['clientName'], $array['contactName']]);
+        DB::update('update friend_relations set sharestatusfr = TRUE where userName = ? and friendName = ?', [$array['contactName'], $array['clientName']]);
         return response()->json(['shareLoc' => true, 'message' => '已发送位置共享请求']);
     }
 
@@ -459,6 +476,32 @@ class ClientUserController extends Controller
         }
     }
 
+    /**
+     * 向外部发送 这个用户的实时运动轨迹
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showSingleUserLoc(Request $request)
+    {
+        if ($request->ajax()) {
+            $nameStr = $request->input('name');
+            $user = ClientUser::where('clientName', $nameStr)->first();
+            if($user->tempshare){
+                return response()->json(array(
+                    'status' => 1,
+                    'location_latitude' => Cache::has('location_latitude:' . $nameStr) ? (Cache::get('location_latitude:' . $nameStr)) : 0,
+                    'location_lontitude' => Cache::has('location_lontitude:' . $nameStr) ? (Cache::get('location_lontitude:' . $nameStr)) : 0,
+                    'canshare' => true
+                ));
+            }else{
+                return response()->json(array(
+                    'status' => 1,
+                    'canshare' => false
+                ));
+            }
+        }
+    }
+
     public function agreeShareLocation(Request $request)
     {
         $jsonstr = $request->input('agreeShareLoc');
@@ -473,10 +516,38 @@ class ClientUserController extends Controller
             ->addAndroidNotification($array['clientName'] . '同意共享位置', null, 1, array('type' => 'agreeShareLoc', "friend_name" => $agreeUser->clientName, 'friend_nickname' => $agreeUser->nick_name, 'pic_url' => $agreeUser->pic_url, 'friend_sex' => $agreeUser->sex, 'friend_address' => $agreeUser->address, 'friend_signature' => $agreeUser->signature))
             ->setOptions(100000, 3600, null, false)
             ->send();
+        DB::update('update friend_relations set sharestatusme = TRUE where userName = ? and friendName = ?', [$array['clientName'], $array['agreeShareUserName']]);
+        DB::update('update friend_relations set sharestatusfr = TRUE where userName = ? and friendName = ?', [$array['agreeShareUserName'], $array['clientName']]);
         error_log('服务器发送 agreeShareLocation成功');
         return response()->json(['agreeShareLoc' => true, 'message' => '已发送同意位置共享请求']);
     }
 
+    public function closeShareLocation(Request $request)
+    {
+        $jsonstr = $request->input('closeShareLocation');
+        $array = json_decode($jsonstr, true);
+        $clientName = $array['clientName'];
+        $contactName = $array['contactName'];
+        DB::update('update friend_relations set sharestatusme = FALSE where userName = ? and friendName = ?', [$clientName, $contactName]);
+        DB::update('update friend_relations set sharestatusfr = FALSE where userName = ? and friendName = ?', [$contactName, $clientName]);
+        error_log('服务器关闭共享:'.$array['clientName'].">".$array['contactName']);
+        return response()->json(['agreeCloseShareLoc' => true, 'message' => '已同意关闭位置共享请求']);
+    }
+
+    public function showAllShareUser(Request $request)
+    {
+        if($request->ajax()){
+            $results = DB::select('select DISTINCT userName from friend_relations where sharestatusme = ?', [true]);
+            foreach($results as $res){
+                error_log('showAllShareUser:'.$res->userName);
+            }
+            return response()->json([
+                'status' => 1,
+                'user' => $results,
+                'count' => count($results)
+            ]);
+        }
+    }
 
     public function find(Request $request)
     {
@@ -489,7 +560,6 @@ class ClientUserController extends Controller
             if (count($temps) == 0) {
                 return Redirect::back()->withInput()->withErrors('查询失败!');
             } else {
-//                $check = "<a href='#user_info' data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getUserDetail(num)'>查看</a>";
 
                 $tabstr = "<table class='table'>";
                 $tabstr .= "<thead align=\"center\">
@@ -911,9 +981,19 @@ class ClientUserController extends Controller
                     'isUser' => false
                 ));
             } else {
+                $usershareattr = DB::select('select * from friend_relations where userName = ? and  sharestatusme = ?', [$nameStr, true]);
+                if(count($usershareattr) <=0)
+                {
+                    error_log('无位置');
+                    return response()->json(array(
+                        'status' => 1,
+                        'msg' => '此用户没有共享位置',
+                        'isUser' => false
+                    ));
+                }
+                error_log($nameStr.'>location_latitude:' . Cache::get('location_latitude:' . $nameStr));
+                error_log($nameStr.'>location_lontitude:' . Cache::get('location_lontitude:' . $nameStr));
 //                self::registerID($nameStr);
-                error_log('location_latitude:' . Cache::get('location_latitude:' . $nameStr));
-                error_log('location_lontitude:' . Cache::get('location_lontitude:' . $nameStr));
 
                 return response()->json(array(
                     'status' => 1,
@@ -946,7 +1026,16 @@ class ClientUserController extends Controller
                     'isUser' => false
                 ));
             } else {
-                //TODO 这里用户cache会保存最后一次用户所在的位置，(要判断用户是否在线)
+                $usershareattr = DB::select('select * from friend_relations where userName = ? and  sharestatusme = ?', [$nameStr, true]);
+                if(count($usershareattr) <=0)
+                {
+                    error_log('无位置共享');
+                    return response()->json(array(
+                        'status' => 1,
+                        'msg' => '此用户没有共享位置',
+                        'isUser' => false
+                    ));
+                }
                 return response()->json(array(
                     'status' => 1,
                     'msg' => '找到此人',
