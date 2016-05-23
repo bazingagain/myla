@@ -21,14 +21,15 @@
                         <div class="panel-body">
                             <!--- maplabel Field --->
 
-                            <div class="navbar-form">
+                            <div class="navbar-form" >
                                 {!! csrf_field() !!}
                                 {!! Form::label('mapPosition', '位置共享信息')!!}
                                 {!! Form::submit('所有共享用户', ['class' => 'btn btn-default', 'onclick' => 'showAllShareUser()']) !!}
                                 {!! Form::text('userName', null, ['class' => 'form-control', 'id'=>'userName', 'placeholder'=>"请输入用户名"]) !!}
                                 {!! Form::submit('定位共享用户', ['class' => 'btn btn-default', 'onclick' => 'lockUser()']) !!}
                                 {!! Form::submit('跟随共享用户', ['class' => 'btn btn-default', 'onclick' => 'trackUser()']) !!}
-                                {!! Form::submit('最近共享轨迹', ['class' => 'btn btn-default', 'id'=>'trackLine','onclick' => 'historytrackLine()']) !!}
+{{--                                {!! Form::submit('最近共享轨迹', ['class' => 'btn btn-default', 'id'=>'trackLine','onclick' => 'historytrackLine()']) !!}--}}
+                                <a href="{{url('/showTrack')}}">位置轨迹显示</a>
                                 <div id="tips" style="height: 20px">
                                 </div>
                             </div>
@@ -218,7 +219,14 @@
         }
 
         function historytrackLine() {
-
+            $.ajax({
+                'type' : 'get',
+                'url' : 'showTrack',
+                success: function(){
+                },
+                error : function(xhr, type){
+                }
+            });
         }
 
         /**

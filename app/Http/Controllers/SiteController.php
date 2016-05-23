@@ -49,5 +49,9 @@ class SiteController extends Controller
         $time = 10;  //minute  可见时间
         return view('sites.showSignalUserLoc', compact('name', 'time'));
     }
+
+    public function showTrack(){
+        return view('sites.showtrace');
+    }
 }
 

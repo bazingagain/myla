@@ -121,9 +121,10 @@ Route::get('/showSignalUserLoc/{sharename}', 'SiteController@showSignalUserLoc')
 Route::group(['middleware' => ['web']], function () {
 });
 
+
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
-
+    Route::get('/showTrack', 'SiteController@showTrack');
     Route::get('/home', 'HomeController@index');
 
     Route::get('/about', 'SiteController@about');
