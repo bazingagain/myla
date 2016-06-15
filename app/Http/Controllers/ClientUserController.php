@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\AddRequestInfo;
 use App\Feedback;
 use App\ShareRequestInfo;
+use App\User;
 use Redis;
+use Auth;
 use Cache;
 use Storage;
 use Illuminate\Support\Facades\DB;
@@ -554,12 +556,25 @@ class ClientUserController extends Controller
 
         if ($request->ajax()) {
             $nameStr = $request->input('name');
+            $id = $request->input('id');
+            if(is_null(User::find($id)->role) || User::find($id)->role==""){
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '<p>您的访问权限不够</p>',
+                ));
+            }
+
+//            error_log($id);
 //            temps是一个集合
             $temps = ClientUser::where('clientName', 'like', $nameStr . '%')->get();
             $ttt = count($temps);
             if (count($temps) == 0) {
                 return Redirect::back()->withInput()->withErrors('查询失败!');
             } else {
+                $isRoot = false;
+                if("root" == User::find($id)->role){
+                    $isRoot = true;
+                }
 
                 $tabstr = "<table class='table'>";
                 $tabstr .= "<thead align=\"center\">
@@ -579,8 +594,13 @@ class ClientUserController extends Controller
                     $sex = $temp->sex;
                     $address = $temp->address;
                     $check = "<a href='#user_info' data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getUserDetail(this)'>查看</a>";
-                    $modify = "<a href='#' data-id=$id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-success btn-large\" onclick='modifyUserInfo(this)'>修改</a>";
-                    $delete = "<a href='#' data-id=$id  class=\"btn btn-danger btn-large\" onclick='deleteUserInfo(this)'>删除</a>";
+                    if($isRoot){
+                        $modify = "<a href='#' data-id=$id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-success btn-large\" onclick='modifyUserInfo(this)'>修改</a>";
+                        $delete = "<a href='#user_del' data-id=$id data-toggle=\"modal\" class=\"btn btn-danger btn-large\" onclick='deleteUserDetail(this)'>删除</a>";  //onclick='deleteUserInfo(this)'
+                    }else{
+                        $modify = "";
+                        $delete="";
+                    }
                     $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $nickName . "</td><td>" . $sex . "</td><td>" . $address . "</td><td>" . $check . $modify . $delete . "</td></tr>";
                 }
                 $tabstr .= "</tbody></table>";
@@ -596,6 +616,14 @@ class ClientUserController extends Controller
     public function createUser(Request $request)
     {
         if ($request->ajax()) {
+            $id = $request->input('id');
+            if(is_null(User::find($id)->role) || User::find($id)->role==""){
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '<p>您的访问权限不够</p>',
+                ));
+            }
+
             $creatStr = "<form class=\"form-horizontal\" role=\"form\">
                <div id='inputNameDiv' class=\"form-group\">
                 <label for=\"name\">用户名</label>
@@ -872,6 +900,13 @@ class ClientUserController extends Controller
     {
         if ($request->ajax()) {
 //            temps是一个集合
+            $id = $request->input('id');
+            if(is_null(User::find($id)->role) || User::find($id)->role==""){
+                return response()->json(array(
+                    'status' => 1,
+                    'msg' => '<p>您的访问权限不够</p>',
+                ));
+            }
             $temps = Feedback::all();
             $ttt = count($temps);
             if (count($temps) <= 0) {
@@ -880,6 +915,10 @@ class ClientUserController extends Controller
                     'msg' => '<p>暂无用户反馈</p>',
                 ));
             } else {
+                $isRoot = false;
+                if("root" == User::find($id)->role){
+                    $isRoot = true;
+                }
                 $tabstr = "<table class='table'>";
                 $tabstr .= "<thead align=\"center\">
                             <tr>
@@ -899,7 +938,11 @@ class ClientUserController extends Controller
                     $feedbackDigest = self::cubstr($temp->content, 0, 30);
                     $check = "<a href='#feedback_info' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn btn-primary btn-large\" onclick='getFeedbackDetail(this)'>查看</a>";
                     $hand = "<a href='#' data-id =$temp->id data-name =$temp->clientName data-toggle=\"modal\" class=\"btn  btn-success btn-large\" onclick='handleFeedback(this)'>处理</a>";
-                    $delete = "<a href='#' data-id =$temp->id data-toggle=\"modal\" class=\"btn btn-danger btn-large\" onclick='deleteFeedback(this)'>删除</a>";
+                    if($isRoot){
+                        $delete = "<a href='#user_del' data-id =$temp->id data-toggle=\"modal\" class=\"btn btn-danger btn-large\" onclick='deleteUserDetail(this)'>删除</a>";
+                    }else{
+                        $delete="";
+                    }
                     $tabstr .= "<tr><td>" . $id . "</td><td >" . $clientName . "</td><td>" . $email . "</td><td>" . $feedbackDigest . "</td><td>" . $status . "</td><td>" . $check . $hand . $delete . "</td></tr>";
                 }
                 $tabstr .= "</tbody></table>";

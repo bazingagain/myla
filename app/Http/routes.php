@@ -25,7 +25,7 @@ Route::post('/userAgree', 'ClientUserController@agree');
 //用户登录时同步好友表及头像
 Route::post('/userSyncRelationTable', 'ClientUserController@userSyncRelationTable');
 
-
+//前台用户功能
 Route::post('/userFind', 'ClientUserController@find');
 Route::post('/userDetail', 'ClientUserController@detail');
 Route::post('/modifyUserInfo', 'ClientUserController@modifyUserInfo');
@@ -33,6 +33,15 @@ Route::post('/saveUserInfo', 'ClientUserController@saveUserInfo');
 Route::post('/deleteUserInfo', 'ClientUserController@deleteUserInfo');
 Route::post('/createUser', 'ClientUserController@createUser');
 Route::post('/saveCreateUser', 'ClientUserController@saveCreateUser');
+
+//后台用户功能
+Route::post('/htuserFind', 'UserController@find');
+Route::post('/htuserDetail', 'UserController@detail');
+Route::post('/htmodifyUserInfo', 'UserController@modifyUserInfo');
+Route::post('/htsaveUserInfo', 'UserController@saveUserInfo');
+Route::post('/htdeleteUserInfo', 'UserController@deleteUserInfo');
+Route::post('/htcreateUser', 'UserController@createUser');
+Route::post('/htsaveCreateUser', 'UserController@saveCreateUser');
 
 
 
@@ -128,6 +137,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home', 'HomeController@index');
 
     Route::get('/about', 'SiteController@about');
+    Route::get('/houtai_manager', 'SiteController@houtaiUser');
     Route::get('/user_manage', 'SiteController@managerUser');
     Route::get('/show_map', 'SiteController@showMap');
     Route::get('/statistic_data', 'SiteController@statisticData');

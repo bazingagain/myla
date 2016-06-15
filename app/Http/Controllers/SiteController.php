@@ -53,5 +53,9 @@ class SiteController extends Controller
     public function showTrack(){
         return view('sites.showtrace');
     }
+
+    public function houtaiUser(){
+        return view('sites.houtaiUser');
+    }
 }
 

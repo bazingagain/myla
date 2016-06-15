@@ -18,6 +18,7 @@ class RoleMiddleware
         if ($request->getUser() == "xiao") {
             return redirect('home');
         }
-        return $next($request);
+//        return $next($request);
+
     }
 }

@@ -5,11 +5,12 @@
         <div class="col-md-2">
             <ul class="nav nav-pills nav-stacked">
                 <li role="presentation"><a href="#">Home</a></li>
-                <li role="presentation"><a href="{{url('/user_manage')}}">用户管理</a></li>
+                <li role="presentation"><a href="{{url('/houtai_manager')}}">后台用户管理</a></li>
+                <li role="presentation"><a href="{{url('/user_manage')}}">前台用户管理</a></li>
                 <li role="presentation" class="active"><a href="{{url('/show_map')}}">地图显示</a></li>
                 <li role="presentation"><a href="{{url('/statistic_data')}}">数据统计</a></li>
                 <li role="presentation"><a href="{{url('/show_feedback')}}">用户反馈</a></li>
-                <li role="presentation" ><a href="{{url('/func_test')}}">功能测试</a></li>
+{{--                <li role="presentation" ><a href="{{url('/func_test')}}">功能测试</a></li>--}}
             </ul>
         </div>
         <div class="container">
@@ -20,7 +21,7 @@
 
                         <div class="panel-body">
                             <!--- maplabel Field --->
-
+                            @if((Auth::user()->role == "root") || Auth::user()->role == "normal")
                             <div class="navbar-form" >
                                 {!! csrf_field() !!}
                                 {!! Form::label('mapPosition', '位置共享信息')!!}
@@ -33,10 +34,13 @@
                                 <div id="tips" style="height: 20px">
                                 </div>
                             </div>
-                            <div id="allmapcontainer" style=" height: 400px; text-align: center">
-                                <div id="allmap" style="height: 400px">
+                                <div id="allmapcontainer" style=" height: 400px; text-align: center">
+                                    <div id="allmap" style="height: 400px">
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <p>您的访问权限不够</p>
+                            @endif
                             <hr>
 
 

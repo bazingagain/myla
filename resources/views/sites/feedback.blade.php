@@ -5,11 +5,12 @@
         <div class="col-md-2">
             <ul class="nav nav-pills nav-stacked">
                 <li role="presentation"><a href="#">Home</a></li>
-                <li role="presentation"><a href="{{url('/user_manage')}}">用户管理</a></li>
+                <li role="presentation"><a href="{{url('/houtai_manager')}}">后台用户管理</a></li>
+                <li role="presentation"><a href="{{url('/user_manage')}}">前台用户管理</a></li>
                 <li role="presentation"><a href="{{url('/show_map')}}">地图显示</a></li>
                 <li role="presentation"><a href="{{url('/statistic_data')}}">数据统计</a></li>
                 <li role="presentation" class="active"><a href="{{url('/show_feedback')}}">用户反馈</a></li>
-                <li role="presentation" ><a href="{{url('/func_test')}}">功能测试</a></li>
+{{--                <li role="presentation" ><a href="{{url('/func_test')}}">功能测试</a></li>--}}
             </ul>
         </div>
         <div class="container">
@@ -20,6 +21,7 @@
                             <div class="navbar-form">
                                用户反馈
                                 <div class="form-group" style="float: right">
+                                    <input type="hidden" id="curUserId" value="{{Auth::user()->id}}">
                                     <button type="button" class="btn btn-default" onclick="showAllFeedback()">所有反馈</button>
                                 </div>
                             </div>
@@ -67,6 +69,25 @@
                                 </div>
 
                             </div>
+                            <div id="user_del" class="modal" style="display:none;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a class="close" data-dismiss="modal">X</a>
+                                            <h3>删除用户</h3>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>您确认要删除此用户吗？确认会删除用户的一切信息，请谨慎操作</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" id="delUser_id" data-dismiss="modal" data-id=""  onclick="deleteFeedback(this)" class="btn btn-success">确认</a>
+                                            <a href="#" class="btn" data-dismiss="modal">关闭</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
 
@@ -82,11 +103,17 @@
 
 <script type="text/javascript">
 
+    function deleteUserDetail(e){
+        $('#delUser_id').attr('data-id', e.getAttribute("data-id"));
+        alert($('#delUser_id').getAttribute('data-id'));
+    }
+
     function showAllFeedback(){
 
         $.ajax({
             type: 'get',
             url: 'feedbackAll',
+            data: {id:$("#curUserId").val()},
             success: function (data) {
                 $("#table").html(data.msg);
             },
