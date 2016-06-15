@@ -35,7 +35,7 @@
                         <div id="table" class="panel-body">
 
                         </div>
-                        <<div class="container">
+                        <div class="container">
                             <div id="user_del" class="modal" style="display:none;">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
